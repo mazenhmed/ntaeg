@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <title>نظام إصدار نتائج نصف العام - المكتبة المتكاملة للطباعة والتصوير</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #2c5aa0;
+            --secondary: #e74c3c;
+            --accent: #27ae60;
+            --light: #f8f9fa;
+            --dark: #2c3e50;
+            --border: #dee2e6;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header Styles */
+        .main-header {
+            background: linear-gradient(135deg, var(--primary) 0%, #1e3a8a 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .main-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="rgba(255,255,255,0.1)"><polygon points="50,0 100,50 50,100 0,50"/></svg>');
+            background-size: 80px;
+        }
+
+        .system-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .system-subtitle {
+            font-size: 1.2rem;
+            font-weight: 300;
+            opacity: 0.9;
+        }
+
+        .library-logo {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 1rem;
+            background: white;
+            border-radius: 50%;
+            padding: 10px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        /* Upload Section */
+        .upload-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .upload-area {
+            border: 3px dashed var(--border);
+            border-radius: 10px;
+            padding: 3rem 2rem;
+            margin: 1.5rem 0;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            background: var(--light);
+        }
+
+        .upload-area:hover {
+            border-color: var(--primary);
+            background: #f0f8ff;
+        }
+
+        .upload-area.dragover {
+            border-color: var(--accent);
+            background: #f0fff4;
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin: 5px;
+        }
+
+        .btn:hover {
+            background: #1e3a8a;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+        }
+
+        .btn-secondary:hover {
+            background: #c0392b;
+        }
+
+        .btn-accent {
+            background: var(--accent);
+        }
+
+        .btn-accent:hover {
+            background: #219a52;
+        }
+
+        /* Configuration Panel */
+        .config-panel {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            display: none;
+        }
+
+        .panel-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            text-align: center;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 0.5rem;
+        }
+
+        .config-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .config-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .config-label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+            font-size: 0.95rem;
+        }
+
+        .config-input {
+            padding: 12px 15px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .config-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(44, 90, 160, 0.1);
+        }
+
+        /* Print Controls */
+        .print-controls {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            text-align: center;
+            display: none;
+        }
+
+        .student-selector {
+            width: 100%;
+            max-width: 400px;
+            padding: 12px 15px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 1rem;
+            margin: 1rem 0;
+        }
+
+        /* Reports Section - التصميم المحسن */
+        .reports-section {
+            display: none;
+        }
+
+        .report-card {
+            max-width: 900px;
+            margin: 10px auto;
+            background: #fff;
+            padding: 18px;
+            border-radius: 6px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+            border: 1px solid #d6d6d6;
+            position: relative;
+            font-family: 'Tajawal', sans-serif;
+        }
+        
+
+        .report-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+            border-bottom: 3px solid #cfcfcf;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .school-header {
+            text-align: center;
+            margin: -22px 1px 7px -10px;
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 20px;
+        }
+
+        .school-header-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .school-title {
+            text-align: center;
+        }
+
+        .school-title h1 { 
+            margin: 0; 
+            font-size: 28px; 
+            font-weight: 800; 
+            color: #0b6b3b;
+            font-family: 'Tajawal', sans-serif;
+        }
+        .school-title p { 
+            margin:147px 206px -0 -0; 
+            color: #555; 
+            font-weight: 700;
+            font-size: 16px;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        .gov-info {
+            position: absolute;
+            right: 19px;
+            top: 33px;
+            width: 190px;
+            height: 90px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+         
+            border-radius: 6px;
+            padding: 8px;
+            font-size: 16px;
+            line-height: 2.3;
+            color: #222;
+            font-weight: 700;
+            font-family: 'Tajawal', sans-serif;
+        }
+          .gov-info.h1 {
+          
+            border-radius: 6px;
+            padding: 8px;
+            font-size: 16px;
+            line-height: 2.3;
+            color: #222;
+            font-weight: 700;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        .absence-summary { 
+            display:flex; 
+            gap:10px; 
+            justify-content:flex-start; 
+            margin-top:10px; 
+            margin-bottom:6px; 
+            font-family: 'Tajawal', sans-serif;
+        }
+        .absence-box { 
+            background:#fff; 
+            border:2px solid #e6e6e6; 
+            padding:8px 12px; 
+            border-radius:6px; 
+            min-width:150px; 
+            text-align:center; 
+            font-weight:700;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        .chart-container { 
+            margin-top: 20px; 
+            max-width: 100%;
+            height: 300px;
+            position: relative;
+        }
+
+        .chart-full {
+            width: 100%;
+            margin: 0 auto;
+            padding: 15px 0;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .student-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 320px;
+            border: 1px solid #e6e6e6;
+            padding: 10px 12px;
+            border-radius: 6px;
+            background: linear-gradient(180deg,#ffffff,#fbfbfb);
+            flex-direction: column;
+            align-items: flex-end;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        .student-meta { 
+            text-align: right; 
+            width:100%; 
+            font-family: 'Tajawal', sans-serif;
+        }
+        .student-meta div { 
+            padding:6px 0; 
+            border-bottom: 1px dashed #eee; 
+            font-size: 15px;
+            font-family: 'Tajawal', sans-serif;
+        }
+        .student-meta div:last-child { border-bottom: none; }
+        .student-meta strong { 
+            display: inline-block; 
+            min-width: 110px; 
+            color:#333;
+            font-family: 'Tajawal', sans-serif;
+        }
+        .student-meta { 
+            font-weight: 600; 
+            color: #222;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 12px;
+            table-layout: fixed;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        th, td {
+            border: 2px solid #bfbfbf;
+            padding: 10px 6px;
+            text-align: center;
+            vertical-align: middle;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        thead th {
+            background: #dff0d8;
+            color: #0b6b3b;
+            font-weight: 700;
+            border-bottom: 3px solid #9ed39a;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        tbody td { background: #fff; }
+
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 6px;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        .summary .box {
+            background: #f9faf9;
+            border: 2px solid #e6e6e6;
+            padding: 8px 10px;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: 700;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        .notes {
+            display: flex;
+            gap: 12px;
+            margin-top: 14px;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        .notes .note {
+            flex: 1;
+            min-height: 120px;
+            border: 2px solid #cfcfcf;
+            border-radius: 6px;
+            padding: 8px;
+            background: #fff;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        .notes .note h4 { 
+            margin: 0 0 6px 0; 
+            font-size: 14px;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        .school-management {
+            text-align: center;
+            margin-top: 10px;
+            padding: 10px;
+            border-top: 2px solid #cfcfcf;
+            font-weight: 700;
+            font-size: 16px;
+            color: #0b6b3b;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        footer {
+            margin-top: 12px;
+            border-top: 3px solid #e9e9e9;
+            padding-top: 8px;
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            align-items: center;
+            color: #555;
+            font-size: 14px;
+            font-family: 'Tajawal', sans-serif;
+        }
+        .xx{
+              position: absolute;
+    right: 19px;
+    top: 100px;
+    width: 220px;
+    height: 90px;
+    display: flex
+;
+
+    justify-content: center;
+    align-items: center;
+   
+    font-size: 8px;
+    
+        }
+
+        /* Print Styles */
+        @media print {
+            @page {
+                size: A4;
+                margin: 15mm;
+            }
+
+            body {
+                background: white;
+                font-size: 12pt;
+                line-height: 1.4;
+                font-family: 'Tajawal', sans-serif;
+            }
+
+            .main-header,
+            .upload-section,
+            .config-panel,
+            .print-controls,
+            .btn {
+                display: none !important;
+            }
+
+            .container {
+                max-width: none;
+                padding: 0;
+                margin: 0;
+            }
+
+            .report-card {
+                box-shadow: none;
+                border: 2px solid #000;
+                margin: 0 0 20mm 0;
+                page-break-after: always;
+                page-break-inside: avoid;
+                font-family: 'Tajawal', sans-serif;
+            }
+
+            .school-title h1 {
+                font-size: 24pt;
+                margin-bottom: 3mm;
+            }
+            
+            .school-title p {
+                font-size: 14pt;
+                margin-bottom: 2mm;
+            }
+
+            .grades-table {
+                font-size: 10pt;
+            }
+
+            .grades-table th {
+                background: #f0f0f0 !important;
+                color: #000 !important;
+                border: 1px solid #000;
+            }
+
+            .grades-table td {
+                border: 1px solid #000;
+            }
+
+            .summary-item {
+                border: 1px solid #000;
+            }
+
+            .chart-container {
+                height: 250px;
+            }
+
+            .gov-info {
+                font-size: 12pt;
+            }
+        }
+
+        /* A5 Print Support */
+        @media print and (max-width: 148mm) {
+            @page {
+                size: A5;
+                margin: 10mm;
+            }
+
+            body {
+                font-size: 10pt;
+            }
+
+            .report-card {
+                margin: 0 0 10mm 0;
+            }
+
+            .chart-container {
+                height: 200px;
+            }
+
+            .school-title h1 {
+                font-size: 18pt;
+            }
+            
+            .school-title p {
+                font-size: 12pt;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .system-title {
+                font-size: 2rem;
+            }
+
+            .config-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .summary-section {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .chart-container {
+                height: 300px;
+            }
+
+            .school-header-content { flex-direction: column; }
+            .gov-info { 
+                position: relative; 
+                right: auto; 
+                top: auto; 
+                width: 100%; 
+                margin-bottom: 10px;
+            }
+
+            .school-title h1 {
+                font-size: 24px;
+            }
+            
+            .school-title p {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Main Header -->
+        <header class="main-header">
+            <div class="library-logo">م</div>
+            <h1 class="system-title">نظام إصدار نتائج نصف العام</h1>
+            <p class="system-subtitle">المكتبة المتكاملة للطباعة والتصوير</p>
+        </header>
+
+        <!-- Upload Section -->
+        <section class="upload-section">
+            <h2 class="panel-title">تحميل ملف النتائج</h2>
+            <div class="upload-area" id="uploadArea">
+                <div class="upload-icon">📊</div>
+                <h3>اسحب وأفلت ملف Excel هنا</h3>
+                <p>أو انقر لاختيار الملف</p>
+                <p style="font-size: 0.9rem; color: #666; margin-top: 1rem;">
+                    يدعم الملفات ذات الامتداد .xlsx أو .xls
+                </p>
+            </div>
+            <input type="file" id="excelFile" accept=".xlsx,.xls" style="display: none;">
+            <button class="btn" onclick="document.getElementById('excelFile').click()">
+                <span>اختر ملف Excel</span>
+            </button>
+        </section>
+
+        <!-- Configuration Panel -->
+        <section class="config-panel" id="configPanel">
+            <h2 class="panel-title">إعدادات البيانات</h2>
+            <div class="config-grid">
+                <div class="config-group">
+                    <label class="config-label">اسم المدرسة</label>
+                    <input type="text" id="schoolName" class="config-input" placeholder="أدخل اسم المدرسة">
+                </div>
+                <div class="config-group">
+                    <label class="config-label">خلية اسم الطالب</label>
+                    <input type="text" id="nameCell" class="config-input" value="B11">
+                </div>
+                <div class="config-group">
+                    <label class="config-label">خلية الرقم الأكاديمي</label>
+                    <input type="text" id="idCell" class="config-input" value="C11">
+                </div>
+                <div class="config-group">
+                    <label class="config-label">صف بداية البيانات</label>
+                    <input type="number" id="startRow" class="config-input" value="11">
+                </div>
+                <div class="config-group">
+                    <label class="config-label">صف نهاية البيانات</label>
+                    <input type="number" id="endRow" class="config-input" placeholder="اكتشاف تلقائي">
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 1.5rem;">
+                <button class="btn btn-accent" onclick="processFile()">
+                    <span>إنشاء التقارير</span>
+                </button>
+                <button class="btn btn-secondary" onclick="resetConfig()">
+                    <span>إعادة تعيين</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Print Controls -->
+        <section class="print-controls" id="printControls">
+            <h2 class="panel-title">خيارات الطباعة</h2>
+            <select class="student-selector" id="studentSelector">
+                <option value="">-- اختر طالب للطباعة --</option>
+            </select>
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                <button class="btn" onclick="printSelectedStudent()">
+                    <span>طباعة الطالب المحدد</span>
+                </button>
+                <button class="btn btn-accent" onclick="printAllStudents()">
+                    <span>طباعة جميع الطلاب</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Reports Section -->
+        <section class="reports-section" id="reportsSection">
+            <div id="reports"></div>
+        </section>
+    </div>
+
+    <script>
+        let currentWorkbook = null;
+        let studentReports = [];
+        let charts = {};
+
+        // إعدادات المواد
+        const subjectsConfig = [
+            { name: "القرآن الكريم", mark1Cell: "F", mark2Cell: "G", totalCell: "H" },
+            { name: "التربية الإسلامية", mark1Cell: "I", mark2Cell: "J", totalCell: "K" },
+            { name: "اللغة العربية", mark1Cell: "L", mark2Cell: "M", totalCell: "N" },
+            { name: "اللغة الانجليزية", mark1Cell: "O", mark2Cell: "P", totalCell: "Q" },
+            { name: "الرياضيات", mark1Cell: "R", mark2Cell: "S", totalCell: "T" },
+            { name: "العلوم والصحـة", mark1Cell: "U", mark2Cell: "V", totalCell: "W" },
+            { name: "المواد الاجتماعية", mark1Cell: "X", mark2Cell: "Y", totalCell: "Z" },
+            { name: "السلوك والمواظبة", mark1Cell: "AA", mark2Cell: "AB", totalCell: "AC" }
+        ];
+
+        // إعدادات الأحداث
+        document.addEventListener('DOMContentLoaded', function() {
+            // تحميل الملف
+            document.getElementById('excelFile').addEventListener('change', handleFileUpload);
+            
+            // سحب وإفلات الملف
+            const uploadArea = document.getElementById('uploadArea');
+            uploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadArea.classList.add('dragover');
+            });
+            
+            uploadArea.addEventListener('dragleave', () => {
+                uploadArea.classList.remove('dragover');
+            });
+            
+            uploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadArea.classList.remove('dragover');
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    document.getElementById('excelFile').files = files;
+                    handleFileUpload({ target: { files: files } });
+                }
+            });
+
+            // النقر على منطقة التحميل
+            uploadArea.addEventListener('click', () => {
+                document.getElementById('excelFile').click();
+            });
+        });
+
+        function handleFileUpload(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                try {
+                    const data = new Uint8Array(event.target.result);
+                    currentWorkbook = XLSX.read(data, { type: 'array' });
+                    document.getElementById('configPanel').style.display = 'block';
+                    
+                    // تحريك الصفحة إلى قسم الإعدادات
+                    document.getElementById('configPanel').scrollIntoView({ 
+                        behavior: 'smooth' 
+                    });
+                } catch (error) {
+                    console.error("Error processing file:", error);
+                    alert("حدث خطأ أثناء معالجة الملف. يرجى التأكد من صيغة الملف.");
+                }
+            };
+            reader.onerror = function() {
+                alert("حدث خطأ أثناء قراءة الملف.");
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        function processFile() {
+            if (!currentWorkbook) {
+                alert("يرجى تحميل ملف Excel أولاً");
+                return;
+            }
+
+            try {
+                const sheet = currentWorkbook.Sheets[currentWorkbook.SheetNames[0]];
+                const schoolName = document.getElementById('schoolName').value || 'المدرسة';
+                const nameCell = document.getElementById('nameCell').value.toUpperCase();
+                const idCell = document.getElementById('idCell').value.toUpperCase();
+                const startRow = parseInt(document.getElementById('startRow').value);
+                const endRowInput = document.getElementById('endRow').value;
+                const endRow = endRowInput ? parseInt(endRowInput) : startRow + 50;
+
+                const reportsContainer = document.getElementById("reports");
+                reportsContainer.innerHTML = "";
+                studentReports = [];
+                charts = {};
+
+                let studentCount = 0;
+
+                for (let row = startRow; row <= endRow; row++) {
+                    const name = getCellValue(sheet, nameCell.replace(/\d+/, row)) || '';
+                    const academicNumber = getCellValue(sheet, idCell.replace(/\d+/, row)) || '';
+
+                    if (!name && !academicNumber) continue;
+
+                    // استخراج بيانات المواد
+                    let subjectsTable = "";
+                    let totalSum = 0;
+                    let subjectsData = [];
+                    let hasAnyData = false;
+
+                    for (const subject of subjectsConfig) {
+                        const mark1 = getCellValue(sheet, subject.mark1Cell + row) || 0;
+                        const mark2 = getCellValue(sheet, subject.mark2Cell + row) || 0;
+                        const total = getCellValue(sheet, subject.totalCell + row) || 0;
+
+                        if (mark1 > 0 || mark2 > 0 || total > 0) {
+                            hasAnyData = true;
+                        }
+
+                        subjectsTable += `
+                            <tr>
+                                <td>${subject.name}</td>
+                                <td>${mark1}</td>
+                                <td>${mark2}</td>
+                                <td>${total}</td>
+                            </tr>`;
+                        totalSum += Number(total);
+                        subjectsData.push({ name: subject.name, mark1, mark2, total });
+                    }
+
+                    if (!hasAnyData && studentCount > 0) continue;
+
+                    // حساب النسبة والتقدير
+                    const percentage = subjectsData.length > 0 ? 
+                        Math.round((totalSum / (subjectsData.length * 100)) * 100) : 0;
+                    const grade = getGrade(percentage);
+
+                    const reportHTML = createReportHTML(schoolName, name, academicNumber, 
+                        subjectsTable, subjectsData, percentage, grade, totalSum, row);
+                    
+                    reportsContainer.innerHTML += reportHTML;
+                    studentReports.push({
+                        id: `report_${row}`,
+                        name: name,
+                        row: row,
+                        subjectsData: subjectsData
+                    });
+                    studentCount++;
+                }
+
+                if (studentCount > 0) {
+                    document.getElementById('reportsSection').style.display = 'block';
+                    document.getElementById('printControls').style.display = 'block';
+                    updateStudentSelector();
+                    
+                    // إنشاء الرسوم البيانية بعد تحميل DOM
+                    setTimeout(() => {
+                        studentReports.forEach(report => {
+                            createChart(`gradesChart_${report.row}`, report.subjectsData);
+                        });
+                    }, 500);
+
+                    alert(`تم إنشاء ${studentCount} تقرير بنجاح`);
+                } else {
+                    alert("لم يتم العثور على بيانات الطلاب");
+                }
+
+            } catch (error) {
+                console.error("Error:", error);
+                alert("حدث خطأ أثناء معالجة الملف");
+            }
+        }
+
+        function createReportHTML(schoolName, name, academicNumber, subjectsTable, 
+                                subjectsData, percentage, grade, totalSum, row) {
+            return `
+            <div class="report-card" id="report_${row}">
+                <div class="report-header">
+                    <div class="gov-info">
+                        <div style="font-size: 16px; font-weight: 800;">الجمهورية اليمنية</div>
+                        <div>وزارة التربية والتعليم</div>
+                        <div>ادارة التربية بمديرية خمر</div>
+                         
+                    </div>
+                     <div  class="xx"> 
+                        <h1>${schoolName}</h1></div>
+                    
+                    <div class="school-header">
+                        <div class="school-header-content">
+                            <div class="school-title">
+                                <p>نتيجة نهاية الفصل الدراسي الأول 2024-2025</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="student-info">
+                        <div class="student-meta">
+                            <div><strong>الاسم:</strong> ${name || 'غير محدد'}</div>
+                            <div><strong>الصف:</strong> الثاني الأساسي - بنات</div>
+                            <div><strong>الرقم الأكاديمي:</strong> ${academicNumber || 'غير محدد'}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>المادة</th>
+                            <th>المحصلة</th>
+                            <th>نهاية الفصل</th>
+                            <th>المجموع</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${subjectsTable}
+                    </tbody>
+                </table>
+
+                <div class="summary">
+                    <div class="box">التقدير العام<br><span style="font-size:18px;color:#0b6b3b;">${grade}</span></div>
+                    <div class="box">النسبة المئوية<br><span style="font-size:18px;color:#0b6b3b;">${percentage}%</span></div>
+                    <div class="box">الترتيب<br><span style="font-size:18px;color:#0b6b3b;">-</span></div>
+                    <div class="box">المجموع<br><span style="font-size:18px;color:#0b6b3b;">${totalSum}</span></div>
+                </div>
+
+                <div class="absence-summary">
+                    <div class="absence-box">عدد أيام الدراسة: <br><span style="font-size:18px;color:#0b6b3b;">70</span></div>
+                    <div class="absence-box">غياب بعذر: <br><span style="font-size:18px;color:#0b6b3b;">0</span></div>
+                    <div class="absence-box">غياب بدون عذر: <br><span style="font-size:18px;color:#0b6b3b;">0</span></div>
+                </div>
+
+                <div class="chart-container chart-full">
+                    <canvas id="gradesChart_${row}" height="300"></canvas>
+                </div>
+
+                <div class="notes">
+                    <div class="note">
+                        <h4>ملاحظات رائد الصف</h4>
+                        <p>..................................................</p>
+                    </div>
+                    <div class="note">
+                        <h4>ملاحظات ولي الأمر</h4>
+                        <p>..................................................</p>
+                    </div>
+                </div>
+
+                <div class="school-management">
+                    إدارة المدرسة
+                </div>
+
+                <footer>
+                    <div>الكنترول</div>
+                    <div> المكتبة المتكاملة للطباعة والتصوير </div>
+                </footer>
+            </div>`;
+        }
+
+        function createChart(chartId, subjectsData) {
+            const ctx = document.getElementById(chartId);
+            if (!ctx) return;
+
+            if (charts[chartId]) {
+                charts[chartId].destroy();
+            }
+
+            const subjectNames = subjectsData.map(subject => subject.name);
+            const subjectTotals = subjectsData.map(subject => subject.total);
+
+            charts[chartId] = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: subjectNames,
+                    datasets: [{
+                        label: 'الدرجات',
+                        data: subjectTotals,
+                        backgroundColor: [
+                            '#4e73df', '#1cc88a', '#36b9cc', '#f6c23e',
+                            '#e74a3b', '#858796', '#5a5c69', '#2e59d9'
+                        ],
+                        borderColor: '#2c3e50',
+                        borderWidth: 1,
+                        borderRadius: 6,
+                        barThickness: 30
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: (context) => `الدرجة: ${context.parsed.y}`
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 50,
+                            ticks: { stepSize: 10 },
+                            grid: { color: 'rgba(0,0,0,0.1)' }
+                        },
+                        x: {
+                            grid: { display: false }
+                        }
+                    }
+                }
+            });
+        }
+
+        function getGrade(percentage) {
+            if (percentage >= 90) return "ممتاز";
+            if (percentage >= 80) return "جيد جداً";
+            if (percentage >= 70) return "جيد";
+            if (percentage >= 60) return "مقبول";
+            return "ضعيف";
+        }
+
+        function getCellValue(sheet, cellAddress) {
+            try {
+                const cell = sheet[cellAddress];
+                return cell ? cell.v : null;
+            } catch (error) {
+                return null;
+            }
+        }
+
+        function updateStudentSelector() {
+            const selector = document.getElementById('studentSelector');
+            selector.innerHTML = '<option value="">-- اختر طالب للطباعة --</option>';
+            
+            studentReports.forEach(report => {
+                const option = document.createElement('option');
+                option.value = report.id;
+                option.textContent = `${report.name} (الصف ${report.row})`;
+                selector.appendChild(option);
+            });
+        }
+
+        function printSelectedStudent() {
+            const selectedId = document.getElementById('studentSelector').value;
+            if (!selectedId) {
+                alert('يرجى اختيار طالب');
+                return;
+            }
+
+            const originalContent = document.body.innerHTML;
+            const reportElement = document.getElementById(selectedId);
+            
+            if (reportElement) {
+                document.body.innerHTML = reportElement.outerHTML;
+                setTimeout(() => {
+                    window.print();
+                    document.body.innerHTML = originalContent;
+                    location.reload();
+                }, 500);
+            }
+        }
+
+        function printAllStudents() {
+            const originalContent = document.body.innerHTML;
+            const reportsContainer = document.getElementById('reports');
+            
+            document.body.innerHTML = reportsContainer.innerHTML;
+            setTimeout(() => {
+                window.print();
+                document.body.innerHTML = originalContent;
+                location.reload();
+            }, 500);
+        }
+
+        function resetConfig() {
+            document.getElementById('schoolName').value = '';
+            document.getElementById('nameCell').value = 'B11';
+            document.getElementById('idCell').value = 'C11';
+            document.getElementById('startRow').value = '11';
+            document.getElementById('endRow').value = '';
+        }
+    </script>
+</body>
+</html>
