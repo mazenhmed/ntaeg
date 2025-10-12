@@ -762,7 +762,7 @@
                         <input type="text" id="nameCell" class="config-input" value="B11">
                     </div>
                     <div class="config-group">
-                        <label class="config-label">خلية الرقم الأكاديمي</label>
+                        <label class="config-label">خلية الرقم الجلوس </label>
                         <input type="text" id="idCell" class="config-input" value="C11">
                     </div>
                     <div class="config-group">
@@ -1043,6 +1043,9 @@
                     document.getElementById('printControls').style.display = 'block';
                     updateStudentSelector();
                     
+                    // تحميل الصور من النت
+                    loadExternalImages();
+                    
                     // إنشاء الرسوم البيانية بعد تحميل DOM
                     setTimeout(() => {
                         studentReports.forEach(report => {
@@ -1063,50 +1066,45 @@
 
         // دالة حساب الترتيب - الإصدار النهائي المؤكد
         function calculateRanks(studentsData) {
-  if (!studentsData || studentsData.length === 0) return [];
+            if (!studentsData || studentsData.length === 0) return [];
 
-  // فرز تنازلي حسب المجموع
-  const sorted = [...studentsData].sort((a, b) => b.totalSum - a.totalSum);
+            // فرز تنازلي حسب المجموع
+            const sorted = [...studentsData].sort((a, b) => b.totalSum - a.totalSum);
 
-  // دالة تحويل رقم الترتيب إلى اسم عربي (مغطّي حتى 20)
-  function getRankName(n) {
-    const names = {
-      1: "الأول", 2: "الثاني", 3: "الثالث", 4: "الرابع", 5: "الخامس",
-      6: "السادس", 7: "السابع", 8: "الثامن", 9: "التاسع", 10: "العاشر"
-     
-    };
-    return names[n] || `${n}`; // إذا أكبر من 20 نُرجع الرقم كاحتياط
-  }
-
-  // تعيين الترتيب للطالب الأول
-  sorted[0].rankNumber = 1;
-  sorted[0].rank = getRankName(1);
-
-  // نمر على بقية الطلاب ونقارن كل طالب بالسابق فقط
-  for (let i = 1; i < sorted.length; i++) {
-    if (sorted[i].totalSum === sorted[i - 1].totalSum) {
-      // نفس المجموع = نفس رقم الترتيب
-      sorted[i].rankNumber = sorted[i - 1].rankNumber;
-    } else {
-      // مختلف = الترتيب التالي مباشرة (بدون قفز)
-      sorted[i].rankNumber = sorted[i - 1].rankNumber + 1;
-    }
-    sorted[i].rank = getRankName(sorted[i].rankNumber);
-  }
-
-  return sorted;
-}
-
-
-        // دالة لتحويل الرقم إلى نص الترتيب
-        function getRankText(rank) {
-            if (rank <= 10) {
-                const rankNames = ["الأول", "الثاني", "الثالث", "الرابع", "الخامس", 
-                                  "السادس", "السابع", "الثامن", "التاسع", "العاشر"];
-                return rankNames[rank - 1];
-            } else {
-                return rank;
+            // دالة تحويل رقم الترتيب إلى اسم عربي (مغطّي حتى 20)
+            function getRankName(n) {
+                const names = {
+                    1: "الأول", 2: "الثاني", 3: "الثالث", 4: "الرابع", 5: "الخامس",
+                    6: "السادس", 7: "السابع", 8: "الثامن", 9: "التاسع", 10: "العاشر"
+                };
+                return names[n] || `${n}`; // إذا أكبر من 20 نُرجع الرقم كاحتياط
             }
+
+            // تعيين الترتيب للطالب الأول
+            sorted[0].rankNumber = 1;
+            sorted[0].rank = getRankName(1);
+
+            // نمر على بقية الطلاب ونقارن كل طالب بالسابق فقط
+            for (let i = 1; i < sorted.length; i++) {
+                if (sorted[i].totalSum === sorted[i - 1].totalSum) {
+                    // نفس المجموع = نفس رقم الترتيب
+                    sorted[i].rankNumber = sorted[i - 1].rankNumber;
+                } else {
+                    // مختلف = الترتيب التالي مباشرة (بدون قفز)
+                    sorted[i].rankNumber = sorted[i - 1].rankNumber + 1;
+                }
+                sorted[i].rank = getRankName(sorted[i].rankNumber);
+            }
+
+            return sorted;
+        }
+
+        // دالة لتحميل الصور من النت
+        function loadExternalImages() {
+            const images = document.querySelectorAll('img[src^="http"]');
+            images.forEach(img => {
+                img.crossOrigin = 'Anonymous';
+            });
         }
 
         function convertNumberToArabicWords(number) {
@@ -1182,7 +1180,7 @@
                         <div class="student-meta">
                             <div><strong>الاسم:</strong> ${name || 'غير محدد'}</div>
                             <div><strong>الصف:</strong> ${grade}</div>
-                            <div><strong>الرقم الأكاديمي:</strong> ${academicNumber || 'غير محدد'}</div>
+                            <div><strong>رقم الجلوس :</strong> ${academicNumber || 'غير محدد'}</div>
                         </div>
                     </div>
                 </div>
@@ -1361,244 +1359,143 @@
             }, 500);
         }
 
-        // وظائف تصدير PDF الجديدة
-        // وظائف تصدير PDF المصححة
-// ✅ وظائف تصدير PDF المصححة والآمنة
-function exportSelectedStudentToPDF() {
-    const selectedId = document.getElementById('studentSelector').value;
-    if (!selectedId) {
-        alert('يرجى اختيار طالب');
-        return;
-    }
+        // 🔥 وظائف تصدير PDF فائقة السرعة والمحسنة
+        function exportSelectedStudentToPDF() {
+            const selectedId = document.getElementById('studentSelector').value;
+            if (!selectedId) {
+                alert('يرجى اختيار طالب');
+                return;
+            }
 
-    const reportElement = document.getElementById(selectedId);
-    if (reportElement) {
-        const student = studentReports.find(r => r.id === selectedId);
-        const filename = student ? `تقرير_${student.name}.pdf` : 'تقرير_طالب.pdf';
-        exportSingleElementToPDF(reportElement, filename);
-    }
-}
-
-function exportAllStudentsToPDF() {
-    const reportsContainer = document.getElementById('reports');
-    if (!reportsContainer || reportsContainer.children.length === 0) {
-        alert('لا توجد تقارير لتصديرها');
-        return;
-    }
-
-    // مؤشر التحميل
-    const loadingIndicator = createLoadingIndicator('جاري تحضير ملف PDF...');
-    document.body.appendChild(loadingIndicator);
-
-    if (!window.jspdf) {
-        alert('مكتبة jsPDF غير محملة');
-        document.body.removeChild(loadingIndicator);
-        return;
-    }
-
-    const { jsPDF } = window.jspdf;
-    const pdf = new jsPDF('p', 'mm', 'a4');
-    let currentPage = 0;
-
-    function processNextReport(index) {
-        if (index >= reportsContainer.children.length) {
-            pdf.save('تقارير_جميع_الطلاب.pdf');
-            document.body.removeChild(loadingIndicator);
-            return;
+            const reportElement = document.getElementById(selectedId);
+            if (reportElement) {
+                const student = studentReports.find(r => r.id === selectedId);
+                const filename = student ? `تقرير_${student.name}.pdf` : 'تقرير_طالب.pdf';
+                exportSingleElementToPDF(reportElement, filename);
+            }
         }
 
-        const reportElement = reportsContainer.children[index];
+        function exportAllStudentsToPDF() {
+            const reportsContainer = document.getElementById('reports');
+            if (!reportsContainer || reportsContainer.children.length === 0) {
+                alert('لا توجد تقارير لتصديرها');
+                return;
+            }
 
-        html2canvas(reportElement, {
-            scale: 2,
-            useCORS: true,
-            allowTaint: true,
-            logging: false,
-            backgroundColor: '#ffffff',
-            scrollX: 0,
-            scrollY: 0,
-            windowWidth: document.documentElement.offsetWidth,
-            windowHeight: reportElement.scrollHeight
-        }).then(canvas => {
-            try {
-                const imgData = canvas.toDataURL('image/jpeg', 0.8);
+            const totalStudents = reportsContainer.children.length;
+            const loadingIndicator = createLoadingIndicator(`جاري تحضير ملف PDF... <br><span id="progress">0/${totalStudents}</span>`);
+            document.body.appendChild(loadingIndicator);
+
+            if (!window.jspdf) {
+                alert('مكتبة jsPDF غير محملة');
+                document.body.removeChild(loadingIndicator);
+                return;
+            }
+
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF('p', 'mm', 'a4');
+            let currentPage = 0;
+
+            function processNextReport(index) {
+                if (index >= totalStudents) {
+                    pdf.save('تقارير_جميع_الطلاب.pdf');
+                    document.body.removeChild(loadingIndicator);
+                    return;
+                }
+
+                // تحديث مؤشر التقدم
+                document.getElementById('progress').textContent = `${index + 1}/${totalStudents}`;
+
+                const reportElement = reportsContainer.children[index];
+                
+                html2canvas(reportElement, {
+                    scale: 1.2, // ✅ تقليل scale من 1.5 إلى 1.2
+                    useCORS: true,
+                    allowTaint: true,
+                    logging: false,
+                    backgroundColor: '#ffffff',
+                    removeContainer: true,
+                    width: reportElement.scrollWidth,
+                    height: reportElement.scrollHeight
+                }).then(canvas => {
+                    try {
+                        const imgData = canvas.toDataURL('image/jpeg', 0.7); // ✅ تقليل جودة الصور إلى 0.7
+                        const imgWidth = 190;
+                        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+                        if (currentPage > 0) pdf.addPage();
+                        pdf.addImage(imgData, 'JPEG', 10, 10, imgWidth, imgHeight);
+
+                        currentPage++;
+                        setTimeout(() => processNextReport(index + 1), 300); // ✅ تقليل وقت الانتظار بين الصفحات إلى 300 مللي ثانية
+                    } catch (error) {
+                        console.error('⚠️ خطأ في معالجة الصورة:', error);
+                        document.body.removeChild(loadingIndicator);
+                        alert('حدث خطأ أثناء إنشاء ملف PDF');
+                    }
+                }).catch(error => {
+                    console.error('⚠️ خطأ في html2canvas:', error);
+                    document.body.removeChild(loadingIndicator);
+                    alert('حدث خطأ أثناء إنشاء ملف PDF');
+                });
+            }
+
+            processNextReport(0);
+        }
+
+        function exportSingleElementToPDF(element, filename) {
+            const loadingIndicator = createLoadingIndicator('جاري تحضير ملف PDF...');
+            document.body.appendChild(loadingIndicator);
+
+            if (!window.jspdf) {
+                alert('مكتبة jsPDF غير محملة');
+                document.body.removeChild(loadingIndicator);
+                return;
+            }
+
+            html2canvas(element, {
+                scale: 1.2, // ✅ تقليل scale من 1.5 إلى 1.2
+                useCORS: true,
+                allowTaint: true,
+                logging: false,
+                backgroundColor: '#ffffff',
+                removeContainer: true,
+                width: element.scrollWidth,
+                height: element.scrollHeight
+            }).then(canvas => {
+                const imgData = canvas.toDataURL('image/jpeg', 0.7); // ✅ تقليل جودة الصور إلى 0.7
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF('p', 'mm', 'a4');
+
                 const imgWidth = 190;
                 const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-                if (currentPage > 0) pdf.addPage();
                 pdf.addImage(imgData, 'JPEG', 10, 10, imgWidth, imgHeight);
-
-                currentPage++;
-                setTimeout(() => processNextReport(index + 1), 500);
-            } catch (error) {
-                console.error('⚠️ خطأ في معالجة الصورة:', error);
-                document.body.removeChild(loadingIndicator);
-                alert('حدث خطأ أثناء إنشاء ملف PDF');
-            }
-        }).catch(error => {
-            console.error('⚠️ خطأ في html2canvas:', error);
-            document.body.removeChild(loadingIndicator);
-            alert('حدث خطأ أثناء إنشاء ملف PDF');
-        });
-    }
-
-    processNextReport(0);
-}
-
-function exportSingleElementToPDF(element, filename) {
-    const loadingIndicator = createLoadingIndicator('جاري تحضير ملف PDF...');
-    document.body.appendChild(loadingIndicator);
-
-    if (!window.jspdf) {
-        alert('مكتبة jsPDF غير محملة');
-        document.body.removeChild(loadingIndicator);
-        return;
-    }
-
-    html2canvas(element, {
-        scale: 2,
-        useCORS: true,
-        allowTaint: true,
-        logging: false,
-        backgroundColor: '#ffffff',
-        scrollX: 0,
-        scrollY: 0,
-        windowWidth: document.documentElement.offsetWidth,
-        windowHeight: element.scrollHeight
-    }).then(canvas => {
-        const imgData = canvas.toDataURL('image/jpeg', 0.8);
-        const { jsPDF } = window.jspdf;
-        const pdf = new jsPDF('p', 'mm', 'a4');
-
-        const imgWidth = 190;
-        const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-        pdf.addImage(imgData, 'JPEG', 10, 10, imgWidth, imgHeight);
-        pdf.save(filename);
-
-        document.body.removeChild(loadingIndicator);
-    }).catch(error => {
-        console.error('⚠️ خطأ في إنشاء PDF:', error);
-        alert('حدث خطأ أثناء إنشاء ملف PDF');
-        document.body.removeChild(loadingIndicator);
-    });
-}
-
-// 🔹 دالة مساعدة لإنشاء مؤشر تحميل
-function createLoadingIndicator(message) {
-    const div = document.createElement('div');
-    div.style.position = 'fixed';
-    div.style.top = '50%';
-    div.style.left = '50%';
-    div.style.transform = 'translate(-50%, -50%)';
-    div.style.background = 'rgba(0,0,0,0.7)';
-    div.style.color = 'white';
-    div.style.padding = '20px';
-    div.style.borderRadius = '10px';
-    div.style.zIndex = '9999';
-    div.innerHTML = `<p>${message}</p>`;
-    return div;
-}
-
-
-function exportElementToPDF(element, filename) {
-    // إظهار مؤشر تحميل
-    const loadingIndicator = document.createElement('div');
-    loadingIndicator.style.position = 'fixed';
-    loadingIndicator.style.top = '50%';
-    loadingIndicator.style.left = '50%';
-    loadingIndicator.style.transform = 'translate(-50%, -50%)';
-    loadingIndicator.style.background = 'rgba(0,0,0,0.7)';
-    loadingIndicator.style.color = 'white';
-    loadingIndicator.style.padding = '20px';
-    loadingIndicator.style.borderRadius = '10px';
-    loadingIndicator.style.zIndex = '9999';
-    loadingIndicator.innerHTML = '<p>جاري تحضير ملف PDF...</p>';
-    document.body.appendChild(loadingIndicator);
-
-    // استخدام html2canvas مع إعدادات مبسطة
-    html2canvas(element, {
-        scale: 1.5,
-        useCORS: true,
-        logging: false,
-        backgroundColor: '#ffffff'
-    }).then(canvas => {
-        try {
-            const imgData = canvas.toDataURL('image/jpeg', 0.8);
-            
-            // استخدام jsPDF مباشرة
-            const pdf = new window.jspdf.jsPDF('p', 'mm', 'a4');
-            const imgWidth = 190;
-            const imgHeight = (canvas.height * imgWidth) / canvas.width;
-            
-            // إضافة الصورة إلى PDF
-            pdf.addImage(imgData, 'JPEG', 10, 10, imgWidth, imgHeight);
-            
-            // حفظ الملف
-            pdf.save(filename);
-            
-            // إزالة مؤشر التحميل
-            document.body.removeChild(loadingIndicator);
-            
-        } catch (error) {
-            console.error('خطأ في إنشاء PDF:', error);
-            document.body.removeChild(loadingIndicator);
-            alert('حدث خطأ أثناء إنشاء ملف PDF');
-        }
-    }).catch(error => {
-        console.error('خطأ في html2canvas:', error);
-        document.body.removeChild(loadingIndicator);
-        alert('حدث خطأ أثناء إنشاء ملف PDF');
-    });
-
-            // بدء عملية إنشاء PDF
-            addReportToPDF(0);
-        }
-
-        function exportElementToPDF(element, filename) {
-            // إظهار مؤشر تحميل
-            const loadingIndicator = document.createElement('div');
-            loadingIndicator.style.position = 'fixed';
-            loadingIndicator.style.top = '50%';
-            loadingIndicator.style.left = '50%';
-            loadingIndicator.style.transform = 'translate(-50%, -50%)';
-            loadingIndicator.style.background = 'rgba(0,0,0,0.7)';
-            loadingIndicator.style.color = 'white';
-            loadingIndicator.style.padding = '20px';
-            loadingIndicator.style.borderRadius = '10px';
-            loadingIndicator.style.zIndex = '9999';
-            loadingIndicator.innerHTML = '<p>جاري تحضير ملف PDF...</p>';
-            document.body.appendChild(loadingIndicator);
-
-            // استخدام html2canvas لالتقاط الصورة
-            html2canvas(element, {
-                scale: 2, // زيادة الدقة
-                useCORS: true,
-                allowTaint: true,
-                logging: false
-            }).then(canvas => {
-                const imgData = canvas.toDataURL('image/png');
-                
-                // استخدام jsPDF لإنشاء ملف PDF
-                const { jsPDF } = window.jspdf;
-                const pdf = new jsPDF('p', 'mm', 'a4');
-                const imgWidth = 190; // عرض مناسب لـ A4 مع هوامش
-                const pageHeight = 277; // ارتفاع A4 بالمليمتر (297 - 10 - 10)
-                const imgHeight = canvas.height * imgWidth / canvas.width;
-                
-                // إضافة الصورة إلى PDF
-                pdf.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight);
-                
-                // حفظ الملف
                 pdf.save(filename);
-                
-                // إزالة مؤشر التحميل
+
                 document.body.removeChild(loadingIndicator);
             }).catch(error => {
-                console.error('خطأ في إنشاء PDF:', error);
+                console.error('⚠️ خطأ في إنشاء PDF:', error);
                 alert('حدث خطأ أثناء إنشاء ملف PDF');
                 document.body.removeChild(loadingIndicator);
             });
+        }
+
+        // 🔹 دالة مساعدة لإنشاء مؤشر تحميل
+        function createLoadingIndicator(message) {
+            const div = document.createElement('div');
+            div.style.position = 'fixed';
+            div.style.top = '50%';
+            div.style.left = '50%';
+            div.style.transform = 'translate(-50%, -50%)';
+            div.style.background = 'rgba(0,0,0,0.7)';
+            div.style.color = 'white';
+            div.style.padding = '20px';
+            div.style.borderRadius = '10px';
+            div.style.zIndex = '9999';
+            div.style.textAlign = 'center';
+            div.innerHTML = message;
+            return div;
         }
 
         function resetConfig() {
@@ -1613,4 +1510,4 @@ function exportElementToPDF(element, filename) {
         }
     </script>
 </body>
-</html> 
+</html>
