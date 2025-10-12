@@ -79,9 +79,9 @@
         }
 
         .library-logo {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 1rem;
+            width: 80px;
+            height: 80px;
+            margin: 20px auto 1rem;
             background: white;
             border-radius: 50%;
             padding: 10px;
@@ -260,6 +260,7 @@
             border: 1px solid #d6d6d6;
             position: relative;
             font-family: 'Tajawal', sans-serif;
+                font-weight: 1000;
         }
         
 
@@ -276,7 +277,7 @@
 
         .school-header {
             text-align: center;
-            margin: -22px 1px 7px -10px;
+            margin: 0px 250px 2px 0px;
             flex: 1 1 auto;
             display: flex;
             flex-direction: column;
@@ -305,8 +306,8 @@
             font-family: 'Tajawal', sans-serif;
         }
         .school-title p { 
-            margin:147px 206px -0 -0; 
-            color: #555; 
+            margin: 5px 0; 
+            color: #000; 
             font-weight: 700;
             font-size: 16px;
             font-family: 'Tajawal', sans-serif;
@@ -314,9 +315,8 @@
 
         .gov-info {
             position: absolute;
-            right: 19px;
+           
             top: 33px;
-            width: 190px;
             height: 90px;
             display: flex;
             flex-direction: column;
@@ -325,10 +325,9 @@
             text-align: center;
          
             border-radius: 6px;
-            padding: 8px;
-            font-size: 16px;
+            font-size: 12px;
             line-height: 2.3;
-            color: #222;
+            color: #000;
             font-weight: 700;
             font-family: 'Tajawal', sans-serif;
         }
@@ -339,17 +338,19 @@
             font-size: 16px;
             line-height: 2.3;
             color: #222;
-            font-weight: 700;
+            font-weight: 1000;
             font-family: 'Tajawal', sans-serif;
         }
 
         .absence-summary { 
             display:flex; 
-            gap:10px; 
+            gap:85px; 
             justify-content:flex-start; 
             margin-top:10px; 
             margin-bottom:6px; 
             font-family: 'Tajawal', sans-serif;
+             font-weight: 1000;
+             font-size: 15px;
         }
         .absence-box { 
             background:#fff; 
@@ -382,7 +383,7 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            min-width: 320px;
+            min-width: 260px;
             border: 1px solid #e6e6e6;
             padding: 10px 12px;
             border-radius: 6px;
@@ -405,7 +406,7 @@
         }
         .student-meta div:last-child { border-bottom: none; }
         .student-meta strong { 
-            display: inline-block; 
+            display: contents; 
             min-width: 110px; 
             color:#333;
             font-family: 'Tajawal', sans-serif;
@@ -484,7 +485,7 @@
         }
 
         .school-management {
-            text-align: center;
+            text-align: left;
             margin-top: 10px;
             padding: 10px;
             border-top: 2px solid #cfcfcf;
@@ -508,18 +509,26 @@
         }
         .xx{
               position: absolute;
-    right: 19px;
-    top: 100px;
-    width: 220px;
-    height: 90px;
-    display: flex
-;
-
+    right: 10px;
+    top: 120px;
+    
+    height: 60px;
+    display: flex;
     justify-content: center;
     align-items: center;
-   
     font-size: 8px;
     
+        }
+
+        /* إضافة الصورة */
+        .result-image {
+            width: 50%;
+            max-width: 300px;
+            height: auto;
+            margin: 10px auto;
+            display: block;
+            border-radius: 8px;
+       ;
         }
 
         /* Print Styles محسنة لتناسب A4 */
@@ -564,6 +573,7 @@
                 font-family: 'Tajawal', sans-serif;
                 width: 100%;
                 max-width: 100%;
+                font-weight: 700;
             }
 
             .school-title h1 {
@@ -645,6 +655,11 @@
                 padding-top: 6px;
                 font-size: 9pt;
             }
+
+            .result-image {
+                max-width: 200px;
+                margin: 5px auto;
+            }
         }
 
         /* Responsive Design */
@@ -685,6 +700,10 @@
             .school-title p {
                 font-size: 18px;
             }
+
+            .result-image {
+                max-width: 250px;
+            }
         }
     </style>
 </head>
@@ -692,7 +711,8 @@
     <div class="container">
         <!-- Main Header -->
         <header class="main-header">
-            <div class="library-logo">م</div>
+            <div class="library-logo"></div>
+
             <h1 class="system-title">نظام إصدار نتائج نصف العام</h1>
             <p class="system-subtitle">المكتبة المتكاملة للطباعة والتصوير</p>
         </header>
@@ -719,29 +739,46 @@
             <h2 class="panel-title">إعدادات البيانات</h2>
             <div class="config-grid">
                 <div class="config-group">
-                    <label class="config-label">اسم المدرسة</label>
-                    <input type="text" id="schoolName" class="config-input" placeholder="أدخل اسم المدرسة">
-                </div>
-                <div class="config-group">
-                    <label class="config-label">خلية اسم الطالب</label>
-                    <input type="text" id="nameCell" class="config-input" value="B11">
-                </div>
-                <div class="config-group">
-                    <label class="config-label">خلية الرقم الأكاديمي</label>
-                    <input type="text" id="idCell" class="config-input" value="C11">
-                </div>
-                <div class="config-group">
-                    <label class="config-label">صف بداية البيانات</label>
-                    <input type="number" id="startRow" class="config-input" value="11">
-                </div>
-                <div class="config-group">
-                    <label class="config-label">صف نهاية البيانات</label>
-                    <input type="number" id="endRow" class="config-input" placeholder="اكتشاف تلقائي">
+                    <label class="config-label">اختر الصف</label>
+                    <select id="sheetSelector" class="config-input">
+                        <option value="">-- اختر الصف --</option>
+                    </select>
                 </div>
             </div>
+            
+            <!-- زر الإدارة -->
+            <div style="text-align: center; margin: 1rem 0;">
+                <button class="btn" onclick="toggleAdminSettings()" style="background: #8e44ad;">
+                    <span>الإدارة ⚙️</span>
+                </button>
+            </div>
+
+            <!-- قسم الإعدادات المتقدمة (مخفي افتراضياً) -->
+            <div id="adminSettings" style="display: none; margin-top: 1.5rem; padding: 1.5rem; background: #f8f9fa; border-radius: 10px; border: 1px solid #dee2e6;">
+                <h3 style="color: #8e44ad; margin-bottom: 1rem; text-align: center;">الإعدادات المتقدمة</h3>
+                <div class="config-grid">
+                    <div class="config-group">
+                        <label class="config-label">خلية اسم الطالب</label>
+                        <input type="text" id="nameCell" class="config-input" value="B11">
+                    </div>
+                    <div class="config-group">
+                        <label class="config-label">خلية الرقم الأكاديمي</label>
+                        <input type="text" id="idCell" class="config-input" value="C11">
+                    </div>
+                    <div class="config-group">
+                        <label class="config-label">صف بداية البيانات</label>
+                        <input type="number" id="startRow" class="config-input" value="11">
+                    </div>
+                    <div class="config-group">
+                        <label class="config-label">صف نهاية البيانات</label>
+                        <input type="number" id="endRow" class="config-input" placeholder="اكتشاف تلقائي">
+                    </div>
+                </div>
+            </div>
+
             <div style="text-align: center; margin-top: 1.5rem;">
                 <button class="btn btn-accent" onclick="processFile()">
-                    <span>إنشاء التقارير</span>
+                    <span>إنشاء النتائج</span>
                 </button>
                 <button class="btn btn-secondary" onclick="resetConfig()">
                     <span>إعادة تعيين</span>
@@ -824,7 +861,23 @@
             uploadArea.addEventListener('click', () => {
                 document.getElementById('excelFile').click();
             });
+
+            // تعيين القيم الافتراضية
+            document.getElementById('nameCell').value = 'B11';
+            document.getElementById('idCell').value = 'C11';
+            document.getElementById('startRow').value = '11';
+            document.getElementById('endRow').value = '';
         });
+
+        // دالة لإظهار/إخفاء إعدادات الإدارة
+        function toggleAdminSettings() {
+            const adminSettings = document.getElementById('adminSettings');
+            if (adminSettings.style.display === 'none') {
+                adminSettings.style.display = 'block';
+            } else {
+                adminSettings.style.display = 'none';
+            }
+        }
 
         function handleFileUpload(e) {
             const file = e.target.files[0];
@@ -836,6 +889,9 @@
                     const data = new Uint8Array(event.target.result);
                     currentWorkbook = XLSX.read(data, { type: 'array' });
                     document.getElementById('configPanel').style.display = 'block';
+                    
+                    // تحديث قائمة الأوراق المنسدلة
+                    updateSheetSelector();
                     
                     // تحريك الصفحة إلى قسم الإعدادات
                     document.getElementById('configPanel').scrollIntoView({ 
@@ -852,20 +908,46 @@
             reader.readAsArrayBuffer(file);
         }
 
+        function updateSheetSelector() {
+            const sheetSelector = document.getElementById('sheetSelector');
+            sheetSelector.innerHTML = '<option value="">-- اختر الصف --</option>';
+            
+            if (currentWorkbook && currentWorkbook.SheetNames) {
+                currentWorkbook.SheetNames.forEach(sheetName => {
+                    const option = document.createElement('option');
+                    option.value = sheetName;
+                    option.textContent = sheetName;
+                    sheetSelector.appendChild(option);
+                });
+            }
+        }
+
         function processFile() {
             if (!currentWorkbook) {
                 alert("يرجى تحميل ملف Excel أولاً");
                 return;
             }
 
+            const selectedSheet = document.getElementById('sheetSelector').value;
+            if (!selectedSheet) {
+                alert("يرجى اختيار الصف المطلوب");
+                return;
+            }
+
             try {
-                const sheet = currentWorkbook.Sheets[currentWorkbook.SheetNames[0]];
-                const schoolName = document.getElementById('schoolName').value || 'المدرسة';
+                const sheet = currentWorkbook.Sheets[selectedSheet];
                 const nameCell = document.getElementById('nameCell').value.toUpperCase();
                 const idCell = document.getElementById('idCell').value.toUpperCase();
                 const startRow = parseInt(document.getElementById('startRow').value);
                 const endRowInput = document.getElementById('endRow').value;
                 const endRow = endRowInput ? parseInt(endRowInput) : startRow + 50;
+
+                // الحصول على اسم المدرسة من الخلية الثابتة AD2
+                const schoolName = getCellValue(sheet, "AD2") || 'المدرسة';
+                // الحصول على قيمة الصف من الخلية الثابتة AD3
+                const grade = getCellValue(sheet, "AD3") || 'غير محدد';
+                // الحصول على إدارة التربية من الخلية الثابتة B4
+                const educationManagement = getCellValue(sheet, "B4") || 'ادارة التربية بمديرية خمر';
 
                 const reportsContainer = document.getElementById("reports");
                 reportsContainer.innerHTML = "";
@@ -873,7 +955,9 @@
                 charts = {};
 
                 let studentCount = 0;
+                let studentsData = [];
 
+                // جمع بيانات الطلاب أولاً
                 for (let row = startRow; row <= endRow; row++) {
                     const name = getCellValue(sheet, nameCell.replace(/\d+/, row)) || '';
                     const academicNumber = getCellValue(sheet, idCell.replace(/\d+/, row)) || '';
@@ -881,7 +965,6 @@
                     if (!name && !academicNumber) continue;
 
                     // استخراج بيانات المواد
-                    let subjectsTable = "";
                     let totalSum = 0;
                     let subjectsData = [];
                     let hasAnyData = false;
@@ -895,36 +978,65 @@
                             hasAnyData = true;
                         }
 
-                        subjectsTable += `
-                            <tr>
-                                <td>${subject.name}</td>
-                                <td>${mark1}</td>
-                                <td>${mark2}</td>
-                                <td>${total}</td>
-                            </tr>`;
                         totalSum += Number(total);
                         subjectsData.push({ name: subject.name, mark1, mark2, total });
                     }
 
                     if (!hasAnyData && studentCount > 0) continue;
 
-                    // حساب النسبة والتقدير
-                    const percentage = subjectsData.length > 0 ? 
-                        Math.round((totalSum / (subjectsData.length * 100)) * 100) : 0;
-                    const grade = getGrade(percentage);
+                    studentsData.push({
+                        row: row,
+                        name: name,
+                        academicNumber: academicNumber,
+                        totalSum: totalSum,
+                        subjectsData: subjectsData
+                    });
+                    
+                    studentCount++;
+                }
 
-                    const reportHTML = createReportHTML(schoolName, name, academicNumber, 
-                        subjectsTable, subjectsData, percentage, grade, totalSum, row);
+                console.log("=== بيانات الطلاب قبل الترتيب ===");
+                studentsData.forEach((student, index) => {
+                    console.log(`الطالب ${index + 1}: ${student.name} - المجموع: ${student.totalSum}`);
+                });
+
+                // حساب الترتيب
+                const studentsWithRanks = calculateRanks(studentsData);
+
+                console.log("=== بيانات الطلاب بعد الترتيب ===");
+                studentsWithRanks.forEach((student, index) => {
+                    console.log(`الطالب ${index + 1}: ${student.name} - المجموع: ${student.totalSum} - الترتيب: ${student.rank}`);
+                });
+
+                // إنشاء التقارير
+                studentsWithRanks.forEach(student => {
+                    const percentage = student.subjectsData.length > 0 ? 
+                        Math.round((student.totalSum / 400) * 100) : 0;
+                    const gradeText = getGrade(percentage);
+
+                    // إنشاء جدول المواد
+                    let subjectsTable = "";
+                    for (const subject of student.subjectsData) {
+                        subjectsTable += `
+                            <tr>
+                                <td>${subject.name}</td>
+                                <td>${subject.mark1}</td>
+                                <td>${subject.mark2}</td>
+                                <td>${subject.total}</td>
+                            </tr>`;
+                    }
+
+                    const reportHTML = createReportHTML(schoolName, student.name, student.academicNumber, grade, educationManagement,
+                        subjectsTable, student.subjectsData, percentage, gradeText, student.totalSum, student.row, student.rank);
                     
                     reportsContainer.innerHTML += reportHTML;
                     studentReports.push({
-                        id: `report_${row}`,
-                        name: name,
-                        row: row,
-                        subjectsData: subjectsData
+                        id: `report_${student.row}`,
+                        name: student.name,
+                        row: student.row,
+                        subjectsData: student.subjectsData
                     });
-                    studentCount++;
-                }
+                });
 
                 if (studentCount > 0) {
                     document.getElementById('reportsSection').style.display = 'block';
@@ -949,15 +1061,106 @@
             }
         }
 
-        function createReportHTML(schoolName, name, academicNumber, subjectsTable, 
-                                subjectsData, percentage, grade, totalSum, row) {
+        // دالة حساب الترتيب - الإصدار النهائي المؤكد
+        function calculateRanks(studentsData) {
+  if (!studentsData || studentsData.length === 0) return [];
+
+  // فرز تنازلي حسب المجموع
+  const sorted = [...studentsData].sort((a, b) => b.totalSum - a.totalSum);
+
+  // دالة تحويل رقم الترتيب إلى اسم عربي (مغطّي حتى 20)
+  function getRankName(n) {
+    const names = {
+      1: "الأول", 2: "الثاني", 3: "الثالث", 4: "الرابع", 5: "الخامس",
+      6: "السادس", 7: "السابع", 8: "الثامن", 9: "التاسع", 10: "العاشر"
+     
+    };
+    return names[n] || `${n}`; // إذا أكبر من 20 نُرجع الرقم كاحتياط
+  }
+
+  // تعيين الترتيب للطالب الأول
+  sorted[0].rankNumber = 1;
+  sorted[0].rank = getRankName(1);
+
+  // نمر على بقية الطلاب ونقارن كل طالب بالسابق فقط
+  for (let i = 1; i < sorted.length; i++) {
+    if (sorted[i].totalSum === sorted[i - 1].totalSum) {
+      // نفس المجموع = نفس رقم الترتيب
+      sorted[i].rankNumber = sorted[i - 1].rankNumber;
+    } else {
+      // مختلف = الترتيب التالي مباشرة (بدون قفز)
+      sorted[i].rankNumber = sorted[i - 1].rankNumber + 1;
+    }
+    sorted[i].rank = getRankName(sorted[i].rankNumber);
+  }
+
+  return sorted;
+}
+
+
+        // دالة لتحويل الرقم إلى نص الترتيب
+        function getRankText(rank) {
+            if (rank <= 10) {
+                const rankNames = ["الأول", "الثاني", "الثالث", "الرابع", "الخامس", 
+                                  "السادس", "السابع", "الثامن", "التاسع", "العاشر"];
+                return rankNames[rank - 1];
+            } else {
+                return rank;
+            }
+        }
+
+        function convertNumberToArabicWords(number) {
+            const units = ['', 'واحد', 'اثنان', 'ثلاثة', 'أربعة', 'خمسة', 'ستة', 'سبعة', 'ثمانية', 'تسعة'];
+            const teens = ['عشرة', 'أحد عشر', 'اثنا عشر', 'ثلاثة عشر', 'أربعة عشر', 'خمسة عشر', 'ستة عشر', 'سبعة عشر', 'ثمانية عشر', 'تسعة عشر'];
+            const tens = ['', 'عشرة', 'عشرون', 'ثلاثون', 'أربعون', 'خمسون', 'ستون', 'سبعون', 'ثمانون', 'تسعون'];
+            const hundreds = ['', 'مائة', 'مئتان', 'ثلاثمائة', 'أربعمائة', 'خمسمائة', 'ستمائة', 'سبعمائة', 'ثمانمائة', 'تسعمائة'];
+
+            if (number === 0) return 'صفر';
+            if (number > 400) return 'أربعمائة';
+
+            let words = '';
+
+            // المئات
+            if (number >= 100) {
+                const hundred = Math.floor(number / 100);
+                words += hundreds[hundred];
+                number %= 100;
+                if (number > 0) words += ' و ';
+            }
+
+            // العشرات والآحاد
+            if (number > 0) {
+                if (number < 10) {
+                    words += units[number];
+                } else if (number < 20) {
+                    words += teens[number - 10];
+                } else {
+                    const ten = Math.floor(number / 10);
+                    const unit = number % 10;
+                    if (unit > 0) {
+                        words += units[unit] + ' و ' + tens[ten];
+                    } else {
+                        words += tens[ten];
+                    }
+                }
+            }
+
+            return words + ' درجة';
+        }
+
+        function createReportHTML(schoolName, name, academicNumber, grade, educationManagement, subjectsTable, 
+                                subjectsData, percentage, gradeText, totalSum, row, rank) {
             return `
             <div class="report-card" id="report_${row}">
                 <div class="report-header">
                     <div class="gov-info">
                         <div style="font-size: 16px; font-weight: 800;">الجمهورية اليمنية</div>
-                        <div>وزارة التربية والتعليم</div>
-                        <div>ادارة التربية بمديرية خمر</div>
+                        <div>  وزارة التربيـة والتعليـم والبحث العلمي
+</div>
+ <div>  مكتب التربية والتعليم والبحث العلميم/ عمـران 
+
+</div>
+                        <div>${educationManagement}</div>
                          
                     </div>
                      <div  class="xx"> 
@@ -966,6 +1169,10 @@
                     <div class="school-header">
                         <div class="school-header-content">
                             <div class="school-title">
+                                <!-- إضافة الصورة فوق عبارة نتيجة نهاية الفصل الدراسي الأول -->
+                            <div class="library-logo">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Emblem_of_Yemen_%282%29.svg/330px-Emblem_of_Yemen_%282%29.svg.png" alt="شعار المكتبة" style=" height: 150%;  object-fit: cover;">
+</div>
                                 <p>نتيجة نهاية الفصل الدراسي الأول 2024-2025</p>
                             </div>
                         </div>
@@ -974,7 +1181,7 @@
                     <div class="student-info">
                         <div class="student-meta">
                             <div><strong>الاسم:</strong> ${name || 'غير محدد'}</div>
-                            <div><strong>الصف:</strong> الثاني الأساسي - بنات</div>
+                            <div><strong>الصف:</strong> ${grade}</div>
                             <div><strong>الرقم الأكاديمي:</strong> ${academicNumber || 'غير محدد'}</div>
                         </div>
                     </div>
@@ -995,16 +1202,18 @@
                 </table>
 
                 <div class="summary">
-                    <div class="box">التقدير العام<br><span style="font-size:18px;color:#0b6b3b;">${grade}</span></div>
+                    <div class="box">التقدير العام<br><span style="font-size:18px;color:#0b6b3b;">${gradeText}</span></div>
                     <div class="box">النسبة المئوية<br><span style="font-size:18px;color:#0b6b3b;">${percentage}%</span></div>
-                    <div class="box">الترتيب<br><span style="font-size:18px;color:#0b6b3b;">-</span></div>
+                    <div class="box">الترتيب<br><span style="font-size:18px;color:#0b6b3b;">${rank}</span></div>
                     <div class="box">المجموع<br><span style="font-size:18px;color:#0b6b3b;">${totalSum}</span></div>
+                 
                 </div>
 
                 <div class="absence-summary">
                     <div class="absence-box">عدد أيام الدراسة: <br><span style="font-size:18px;color:#0b6b3b;">70</span></div>
                     <div class="absence-box">غياب بعذر: <br><span style="font-size:18px;color:#0b6b3b;">0</span></div>
                     <div class="absence-box">غياب بدون عذر: <br><span style="font-size:18px;color:#0b6b3b;">0</span></div>
+                       <div class="box">الإجمالي كتابة<br><span style="font-size:14px;color:#0b6b3b;">${convertNumberToArabicWords(totalSum)}</span></div>
                 </div>
 
                 <div class="chart-container chart-full">
@@ -1022,12 +1231,15 @@
                     </div>
                 </div>
 
-                <div class="school-management">
-                    إدارة المدرسة
+                <div 
+                class="school-management">
+                 
+                    إدارة المدرسة 
+                                                   
                 </div>
+                
 
                 <footer>
-                    <div>الكنترول</div>
                     <div> المكتبة المتكاملة للطباعة والتصوير </div>
                 </footer>
             </div>`;
@@ -1091,8 +1303,9 @@
             if (percentage >= 90) return "ممتاز";
             if (percentage >= 80) return "جيد جداً";
             if (percentage >= 70) return "جيد";
-            if (percentage >= 60) return "مقبول";
-            return "ضعيف";
+            if (percentage >= 55) return "جيد";
+            if (percentage >= 50) return "ضعيف";
+            return "راسب";
         }
 
         function getCellValue(sheet, cellAddress) {
@@ -1111,7 +1324,7 @@
             studentReports.forEach(report => {
                 const option = document.createElement('option');
                 option.value = report.id;
-                option.textContent = `${report.name} (الصف ${report.row})`;
+                option.textContent = `${report.name}`;
                 selector.appendChild(option);
             });
         }
@@ -1149,84 +1362,194 @@
         }
 
         // وظائف تصدير PDF الجديدة
-        function exportSelectedStudentToPDF() {
-            const selectedId = document.getElementById('studentSelector').value;
-            if (!selectedId) {
-                alert('يرجى اختيار طالب');
-                return;
-            }
+        // وظائف تصدير PDF المصححة
+// ✅ وظائف تصدير PDF المصححة والآمنة
+function exportSelectedStudentToPDF() {
+    const selectedId = document.getElementById('studentSelector').value;
+    if (!selectedId) {
+        alert('يرجى اختيار طالب');
+        return;
+    }
 
-            const reportElement = document.getElementById(selectedId);
-            if (reportElement) {
-                exportElementToPDF(reportElement, `تقرير_${studentReports.find(r => r.id === selectedId).name}.pdf`);
-            }
+    const reportElement = document.getElementById(selectedId);
+    if (reportElement) {
+        const student = studentReports.find(r => r.id === selectedId);
+        const filename = student ? `تقرير_${student.name}.pdf` : 'تقرير_طالب.pdf';
+        exportSingleElementToPDF(reportElement, filename);
+    }
+}
+
+function exportAllStudentsToPDF() {
+    const reportsContainer = document.getElementById('reports');
+    if (!reportsContainer || reportsContainer.children.length === 0) {
+        alert('لا توجد تقارير لتصديرها');
+        return;
+    }
+
+    // مؤشر التحميل
+    const loadingIndicator = createLoadingIndicator('جاري تحضير ملف PDF...');
+    document.body.appendChild(loadingIndicator);
+
+    if (!window.jspdf) {
+        alert('مكتبة jsPDF غير محملة');
+        document.body.removeChild(loadingIndicator);
+        return;
+    }
+
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF('p', 'mm', 'a4');
+    let currentPage = 0;
+
+    function processNextReport(index) {
+        if (index >= reportsContainer.children.length) {
+            pdf.save('تقارير_جميع_الطلاب.pdf');
+            document.body.removeChild(loadingIndicator);
+            return;
         }
 
-        function exportAllStudentsToPDF() {
-            const reportsContainer = document.getElementById('reports');
-            if (reportsContainer.children.length === 0) {
-                alert('لا توجد تقارير لتصديرها');
-                return;
+        const reportElement = reportsContainer.children[index];
+
+        html2canvas(reportElement, {
+            scale: 2,
+            useCORS: true,
+            allowTaint: true,
+            logging: false,
+            backgroundColor: '#ffffff',
+            scrollX: 0,
+            scrollY: 0,
+            windowWidth: document.documentElement.offsetWidth,
+            windowHeight: reportElement.scrollHeight
+        }).then(canvas => {
+            try {
+                const imgData = canvas.toDataURL('image/jpeg', 0.8);
+                const imgWidth = 190;
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+                if (currentPage > 0) pdf.addPage();
+                pdf.addImage(imgData, 'JPEG', 10, 10, imgWidth, imgHeight);
+
+                currentPage++;
+                setTimeout(() => processNextReport(index + 1), 500);
+            } catch (error) {
+                console.error('⚠️ خطأ في معالجة الصورة:', error);
+                document.body.removeChild(loadingIndicator);
+                alert('حدث خطأ أثناء إنشاء ملف PDF');
             }
+        }).catch(error => {
+            console.error('⚠️ خطأ في html2canvas:', error);
+            document.body.removeChild(loadingIndicator);
+            alert('حدث خطأ أثناء إنشاء ملف PDF');
+        });
+    }
+
+    processNextReport(0);
+}
+
+function exportSingleElementToPDF(element, filename) {
+    const loadingIndicator = createLoadingIndicator('جاري تحضير ملف PDF...');
+    document.body.appendChild(loadingIndicator);
+
+    if (!window.jspdf) {
+        alert('مكتبة jsPDF غير محملة');
+        document.body.removeChild(loadingIndicator);
+        return;
+    }
+
+    html2canvas(element, {
+        scale: 2,
+        useCORS: true,
+        allowTaint: true,
+        logging: false,
+        backgroundColor: '#ffffff',
+        scrollX: 0,
+        scrollY: 0,
+        windowWidth: document.documentElement.offsetWidth,
+        windowHeight: element.scrollHeight
+    }).then(canvas => {
+        const imgData = canvas.toDataURL('image/jpeg', 0.8);
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF('p', 'mm', 'a4');
+
+        const imgWidth = 190;
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+        pdf.addImage(imgData, 'JPEG', 10, 10, imgWidth, imgHeight);
+        pdf.save(filename);
+
+        document.body.removeChild(loadingIndicator);
+    }).catch(error => {
+        console.error('⚠️ خطأ في إنشاء PDF:', error);
+        alert('حدث خطأ أثناء إنشاء ملف PDF');
+        document.body.removeChild(loadingIndicator);
+    });
+}
+
+// 🔹 دالة مساعدة لإنشاء مؤشر تحميل
+function createLoadingIndicator(message) {
+    const div = document.createElement('div');
+    div.style.position = 'fixed';
+    div.style.top = '50%';
+    div.style.left = '50%';
+    div.style.transform = 'translate(-50%, -50%)';
+    div.style.background = 'rgba(0,0,0,0.7)';
+    div.style.color = 'white';
+    div.style.padding = '20px';
+    div.style.borderRadius = '10px';
+    div.style.zIndex = '9999';
+    div.innerHTML = `<p>${message}</p>`;
+    return div;
+}
+
+
+function exportElementToPDF(element, filename) {
+    // إظهار مؤشر تحميل
+    const loadingIndicator = document.createElement('div');
+    loadingIndicator.style.position = 'fixed';
+    loadingIndicator.style.top = '50%';
+    loadingIndicator.style.left = '50%';
+    loadingIndicator.style.transform = 'translate(-50%, -50%)';
+    loadingIndicator.style.background = 'rgba(0,0,0,0.7)';
+    loadingIndicator.style.color = 'white';
+    loadingIndicator.style.padding = '20px';
+    loadingIndicator.style.borderRadius = '10px';
+    loadingIndicator.style.zIndex = '9999';
+    loadingIndicator.innerHTML = '<p>جاري تحضير ملف PDF...</p>';
+    document.body.appendChild(loadingIndicator);
+
+    // استخدام html2canvas مع إعدادات مبسطة
+    html2canvas(element, {
+        scale: 1.5,
+        useCORS: true,
+        logging: false,
+        backgroundColor: '#ffffff'
+    }).then(canvas => {
+        try {
+            const imgData = canvas.toDataURL('image/jpeg', 0.8);
             
-            // إنشاء PDF واحد يحتوي على جميع التقارير
-            const { jsPDF } = window.jspdf;
-            const pdf = new jsPDF('p', 'mm', 'a4');
+            // استخدام jsPDF مباشرة
+            const pdf = new window.jspdf.jsPDF('p', 'mm', 'a4');
+            const imgWidth = 190;
+            const imgHeight = (canvas.height * imgWidth) / canvas.width;
             
-            // إظهار مؤشر تحميل
-            const loadingIndicator = document.createElement('div');
-            loadingIndicator.style.position = 'fixed';
-            loadingIndicator.style.top = '50%';
-            loadingIndicator.style.left = '50%';
-            loadingIndicator.style.transform = 'translate(-50%, -50%)';
-            loadingIndicator.style.background = 'rgba(0,0,0,0.7)';
-            loadingIndicator.style.color = 'white';
-            loadingIndicator.style.padding = '20px';
-            loadingIndicator.style.borderRadius = '10px';
-            loadingIndicator.style.zIndex = '9999';
-            loadingIndicator.innerHTML = '<p>جاري تحضير ملف PDF...</p>';
-            document.body.appendChild(loadingIndicator);
-
-            let currentPage = 0;
-            const totalReports = reportsContainer.children.length;
-
-            function addReportToPDF(index) {
-                if (index >= totalReports) {
-                    // حفظ الملف بعد إضافة جميع التقارير
-                    pdf.save('تقارير_جميع_الطلاب.pdf');
-                    document.body.removeChild(loadingIndicator);
-                    return;
-                }
-
-                const reportElement = reportsContainer.children[index];
-                
-                html2canvas(reportElement, {
-                    scale: 2,
-                    useCORS: true,
-                    allowTaint: true,
-                    logging: false
-                }).then(canvas => {
-                    const imgData = canvas.toDataURL('image/png');
-                    const imgWidth = 190; // عرض مناسب لـ A4 مع هوامش
-                    const imgHeight = canvas.height * imgWidth / canvas.width;
-                    
-                    // إضافة صفحة جديدة إذا لم تكن الصفحة الأولى
-                    if (currentPage > 0) {
-                        pdf.addPage();
-                    }
-                    
-                    // إضافة الصورة إلى PDF
-                    pdf.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight);
-                    
-                    currentPage++;
-                    // معالجة التقرير التالي
-                    setTimeout(() => addReportToPDF(index + 1), 500);
-                }).catch(error => {
-                    console.error('خطأ في إنشاء PDF:', error);
-                    alert('حدث خطأ أثناء إنشاء ملف PDF');
-                    document.body.removeChild(loadingIndicator);
-                });
-            }
+            // إضافة الصورة إلى PDF
+            pdf.addImage(imgData, 'JPEG', 10, 10, imgWidth, imgHeight);
+            
+            // حفظ الملف
+            pdf.save(filename);
+            
+            // إزالة مؤشر التحميل
+            document.body.removeChild(loadingIndicator);
+            
+        } catch (error) {
+            console.error('خطأ في إنشاء PDF:', error);
+            document.body.removeChild(loadingIndicator);
+            alert('حدث خطأ أثناء إنشاء ملف PDF');
+        }
+    }).catch(error => {
+        console.error('خطأ في html2canvas:', error);
+        document.body.removeChild(loadingIndicator);
+        alert('حدث خطأ أثناء إنشاء ملف PDF');
+    });
 
             // بدء عملية إنشاء PDF
             addReportToPDF(0);
@@ -1279,12 +1602,15 @@
         }
 
         function resetConfig() {
-            document.getElementById('schoolName').value = '';
             document.getElementById('nameCell').value = 'B11';
             document.getElementById('idCell').value = 'C11';
             document.getElementById('startRow').value = '11';
             document.getElementById('endRow').value = '';
+            document.getElementById('sheetSelector').innerHTML = '<option value="">-- اختر الورقة --</option>';
+            
+            // إخفاء إعدادات الإدارة
+            document.getElementById('adminSettings').style.display = 'none';
         }
     </script>
 </body>
-</html>
+</html> 
