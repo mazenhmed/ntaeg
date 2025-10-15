@@ -223,6 +223,54 @@
             box-shadow: 0 0 0 3px rgba(44, 90, 160, 0.1);
         }
 
+        /* حقول إدخال إدارة المدرسة */
+        .management-inputs {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border: 1px solid #dee2e6;
+        }
+
+        .management-inputs h4 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        .management-input-row {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .management-input-group {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .management-input-group label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+            font-size: 0.95rem;
+        }
+
+        .management-input-group input {
+            padding: 10px 12px;
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 14px;
+        }
+
+        .management-input-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
         /* Print Controls */
         .print-controls {
             background: white;
@@ -342,6 +390,55 @@
             font-family: 'Tajawal', sans-serif;
         }
 
+        /* مربع صورة الطالب */
+        .student-photo-box {
+            width: 120px;
+            height: 150px;
+            border: 3px dashed #ccc;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f9f9f9;
+            margin-left: 20px;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+            padding: 10px;
+        }
+
+        /* التصميم الجديد للمعلومات فوق الجدول */
+        .student-info-above-table {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(180deg,#ffffff,#fbfbfb);
+            border: 2px solid #e6e6e6;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-family: 'Tajawal', sans-serif;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .student-info-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .student-info-label {
+            color: #0b6b3b;
+            font-weight: 800;
+        }
+
+        .student-info-value {
+            color: #222;
+            font-weight: 700;
+        }
+
         .absence-summary { 
             display:flex; 
             gap:85px; 
@@ -427,21 +524,40 @@
 
         th, td {
             border: 2px solid #bfbfbf;
-            padding: 10px 6px;
+            padding: 12px 8px;
             text-align: center;
             vertical-align: middle;
             font-family: 'Tajawal', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
         }
 
         thead th {
             background: #dff0d8;
             color: #0b6b3b;
-            font-weight: 700;
+            font-weight: 800;
             border-bottom: 3px solid #9ed39a;
             font-family: 'Tajawal', sans-serif;
+            font-size: 17px;
         }
 
-        tbody td { background: #fff; }
+        tbody td { 
+            background: #fff; 
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        /* صف المادة الراسب */
+        .failed-subject {
+            background: #ffebee !important;
+            color: #c62828;
+        }
+
+        .failed-subject td {
+            background: #ffebee !important;
+            color: #c62828;
+            font-weight: 800;
+        }
 
         .summary {
             display: grid;
@@ -484,8 +600,11 @@
             font-family: 'Tajawal', sans-serif;
         }
 
+        /* تصميم جديد لإدارة المدرسة */
         .school-management {
-            text-align: left;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
             margin-top: 10px;
             padding: 10px;
             border-top: 2px solid #cfcfcf;
@@ -493,6 +612,83 @@
             font-size: 16px;
             color: #0b6b3b;
             font-family: 'Tajawal', sans-serif;
+        }
+
+        .management-left {
+            flex: 1;
+            min-height: 80px;
+            border: 2px dashed #ccc;
+            border-radius: 6px;
+            padding: 8px;
+            background: #f9f9f9;
+            margin-left: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        .management-right {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .manager-title {
+            font-weight: 800;
+            font-size: 16px;
+            color: #0b6b3b;
+        }
+
+        .manager-name {
+            min-width: 200px;
+            min-height: 40px;
+            border: 0px dashed #ccc;
+            border-radius: 6px;
+            padding: 8px;
+            background: #ffffff;
+            text-align: center;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* إضافة قسم الكنترول */
+        .control-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-top: 10px;
+            padding: 10px;
+        }
+
+        .control-left {
+            min-width: 200px;
+            min-height: 40px;
+            border: 0px dashed #ccc;
+            border-radius: 6px;
+            padding: 8px;
+            background: #ffffff;
+            text-align: center;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .control-right {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .control-title {
+            font-weight: 800;
+            font-size: 16px;
+            color: #0b6b3b;
         }
 
         footer {
@@ -503,7 +699,7 @@
             justify-content: space-between;
             gap: 10px;
             align-items: center;
-            color: #555;
+            color: #000000;
             font-size: 14px;
             font-family: 'Tajawal', sans-serif;
         }
@@ -593,13 +789,35 @@
                 padding: 5px;
             }
 
-            table {
+            .student-photo-box {
+                width: 100px;
+                height: 125px;
                 font-size: 9pt;
+            }
+
+            .student-info-above-table {
+                padding: 10px 15px;
+                font-size: 11pt;
+                margin-bottom: 10px;
+            }
+
+            table {
+                font-size: 10pt;
                 margin-bottom: 8px;
             }
 
             th, td {
-                padding: 6px 4px;
+                padding: 8px 6px;
+                font-size: 10pt;
+                font-weight: 700;
+            }
+
+            thead th {
+                font-size: 11pt;
+            }
+
+            .failed-subject {
+                background: #ffebee !important;
             }
 
             .summary {
@@ -637,6 +855,35 @@
             .notes .note {
                 min-height: 80px;
                 padding: 6px;
+                font-size: 9pt;
+            }
+
+            .school-management {
+                margin-top: 8px;
+                padding: 8px;
+                font-size: 11pt;
+            }
+
+            .management-left {
+                min-height: 60px;
+                font-size: 9pt;
+            }
+
+            .manager-name {
+                min-width: 150px;
+                min-height: 30px;
+                font-size: 9pt;
+            }
+
+            .control-section {
+                margin-top: 8px;
+                padding: 8px;
+                font-size: 11pt;
+            }
+
+            .control-left {
+                min-width: 150px;
+                min-height: 30px;
                 font-size: 9pt;
             }
 
@@ -701,6 +948,55 @@
                 font-size: 18px;
             }
 
+            .student-info-above-table {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+            }
+
+            .student-photo-box {
+                margin-left: 0;
+                margin-top: 10px;
+            }
+
+            .school-management {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .management-left {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .management-right {
+                width: 100%;
+                align-items: center;
+            }
+
+            .control-section {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .control-left {
+                width: 100%;
+            }
+
+            .control-right {
+                width: 100%;
+                align-items: center;
+            }
+
+            table {
+                font-size: 14px;
+            }
+
+            th, td {
+                padding: 8px 4px;
+                font-size: 14px;
+            }
+
             .result-image {
                 max-width: 250px;
             }
@@ -743,6 +1039,21 @@
                     <select id="sheetSelector" class="config-input">
                         <option value="">-- اختر الصف --</option>
                     </select>
+                </div>
+            </div>
+
+            <!-- حقول إدخال إدارة المدرسة -->
+            <div class="management-inputs">
+                <h4>إعدادات إدارة المدرسة</h4>
+                <div class="management-input-row">
+                    <div class="management-input-group">
+                        <label for="controlText">نص الكنترول</label>
+                        <input type="text" id="controlText" value="الكنترول" placeholder="أدخل نص الكنترول">
+                    </div>
+                    <div class="management-input-group">
+                        <label for="managerName">اسم مدير المدرسة</label>
+                        <input type="text" id="managerName" placeholder="أدخل اسم مدير المدرسة">
+                    </div>
                 </div>
             </div>
             
@@ -818,6 +1129,10 @@
         let currentWorkbook = null;
         let studentReports = [];
         let charts = {};
+        let managementData = {
+            controlText: "الكنترول",
+            managerName: ""
+        };
 
         // إعدادات المواد
         const subjectsConfig = [
@@ -867,6 +1182,16 @@
             document.getElementById('idCell').value = 'C11';
             document.getElementById('startRow').value = '11';
             document.getElementById('endRow').value = '';
+            document.getElementById('controlText').value = 'الكنترول';
+
+            // تحديث بيانات الإدارة عند تغيير الحقول
+            document.getElementById('controlText').addEventListener('input', function() {
+                managementData.controlText = this.value || "الكنترول";
+            });
+
+            document.getElementById('managerName').addEventListener('input', function() {
+                managementData.managerName = this.value;
+            });
         });
 
         // دالة لإظهار/إخفاء إعدادات الإدارة
@@ -948,6 +1273,8 @@
                 const grade = getCellValue(sheet, "AD3") || 'غير محدد';
                 // الحصول على إدارة التربية من الخلية الثابتة B4
                 const educationManagement = getCellValue(sheet, "B4") || 'ادارة التربية بمديرية خمر';
+                // الحصول على رقم الجلوس من الخلية الثابتة AD4
+                const academicNumber = getCellValue(sheet, "AD4") || 'غير محدد';
 
                 const reportsContainer = document.getElementById("reports");
                 reportsContainer.innerHTML = "";
@@ -960,9 +1287,10 @@
                 // جمع بيانات الطلاب أولاً
                 for (let row = startRow; row <= endRow; row++) {
                     const name = getCellValue(sheet, nameCell.replace(/\d+/, row)) || '';
-                    const academicNumber = getCellValue(sheet, idCell.replace(/\d+/, row)) || '';
+                    // استخدام رقم الجلوس من AD4 بدلاً من الخلية المحددة
+                    const studentAcademicNumber = academicNumber;
 
-                    if (!name && !academicNumber) continue;
+                    if (!name && !studentAcademicNumber) continue;
 
                     // استخراج بيانات المواد
                     let totalSum = 0;
@@ -987,7 +1315,7 @@
                     studentsData.push({
                         row: row,
                         name: name,
-                        academicNumber: academicNumber,
+                        academicNumber: studentAcademicNumber,
                         totalSum: totalSum,
                         subjectsData: subjectsData
                     });
@@ -1017,8 +1345,11 @@
                     // إنشاء جدول المواد
                     let subjectsTable = "";
                     for (const subject of student.subjectsData) {
+                        const isFailed = subject.total < 25;
+                        const rowClass = isFailed ? 'class="failed-subject"' : '';
+                        
                         subjectsTable += `
-                            <tr>
+                            <tr ${rowClass}>
                                 <td>${subject.name}</td>
                                 <td>${subject.mark1}</td>
                                 <td>${subject.mark2}</td>
@@ -1171,17 +1502,30 @@
                             <div class="library-logo">
     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Emblem_of_Yemen_%282%29.svg/330px-Emblem_of_Yemen_%282%29.svg.png" alt="شعار المكتبة" style=" height: 150%;  object-fit: cover;">
 </div>
-                                <p>نتيجة نهاية الفصل الدراسي الأول 2024-2025</p>
+                                <p>نتيجة نهاية الفصل الدراسي الأول 1447هـ</p>
                             </div>
                         </div>
                     </div>
 
-                    <div class="student-info">
-                        <div class="student-meta">
-                            <div><strong>الاسم:</strong> ${name || 'غير محدد'}</div>
-                            <div><strong>الصف:</strong> ${grade}</div>
-                            <div><strong>رقم الجلوس :</strong> ${academicNumber || 'غير محدد'}</div>
-                        </div>
+                    <!-- مربع صورة الطالب بدلاً من معلومات الطالب -->
+                    <div class="student-photo-box">
+                        صورة الطالب<br>(4×6 سم)
+                    </div>
+                </div>
+
+                <!-- المعلومات فوق الجدول -->
+                <div class="student-info-above-table">
+                    <div class="student-info-item">
+                        <span class="student-info-label">اسم الطالب:</span>
+                        <span class="student-info-value">${name || 'غير محدد'}</span>
+                    </div>
+                    <div class="student-info-item">
+                        <span class="student-info-label">الصف:</span>
+                        <span class="student-info-value">${grade}</span>
+                    </div>
+                    <div class="student-info-item">
+                        <span class="student-info-label">الشعبة  :</span>
+                        <span class="student-info-value">${academicNumber || 'غير محدد'}</span>
                     </div>
                 </div>
 
@@ -1229,13 +1573,18 @@
                     </div>
                 </div>
 
-                <div 
-                class="school-management">
-                 
-                    إدارة المدرسة 
-                                                   
+                <!-- قسم الكنترول -->
+                <div class="control-section">
+                    <div class="control-left">
+                        ${managementData.controlText}
+                    </div>
+                    <div class="control-right">
+                        <div class="control-title">مدير المدرسة</div>
+                        <div class="manager-name">
+                            ${managementData.managerName || '&nbsp;'}
+                        </div>
+                    </div>
                 </div>
-                
 
                 <footer>
                     <div> المكتبة المتكاملة للطباعة والتصوير </div>
@@ -1504,6 +1853,14 @@
             document.getElementById('startRow').value = '11';
             document.getElementById('endRow').value = '';
             document.getElementById('sheetSelector').innerHTML = '<option value="">-- اختر الورقة --</option>';
+            document.getElementById('controlText').value = 'الكنترول';
+            document.getElementById('managerName').value = '';
+            
+            // إعادة تعيين بيانات الإدارة
+            managementData = {
+                controlText: "الكنترول",
+                managerName: ""
+            };
             
             // إخفاء إعدادات الإدارة
             document.getElementById('adminSettings').style.display = 'none';
