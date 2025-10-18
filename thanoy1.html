@@ -192,7 +192,7 @@
         .config-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
+            gap: 1rem;
             margin-bottom: 1.5rem;
         }
 
@@ -1154,7 +1154,7 @@ th, td {
                         <input type="text" id="nameCell" class="config-input" value="B11">
                     </div>
                     <div class="config-group">
-                        <label class="config-label">خلية الرقم الجلوس </label>
+                        <label class="config-label">خلية الرقم الجلوس</label>
                         <input type="text" id="idCell" class="config-input" value="C11">
                     </div>
                     <div class="config-group">
@@ -1164,6 +1164,23 @@ th, td {
                     <div class="config-group">
                         <label class="config-label">صف نهاية البيانات</label>
                         <input type="number" id="endRow" class="config-input" placeholder="اكتشاف تلقائي">
+                    </div>
+                    <!-- إضافة حقول جديدة للتحكم في خلايا المدرسة والصف والشعبة -->
+                    <div class="config-group">
+                        <label class="config-label">خلية اسم المدرسة</label>
+                        <input type="text" id="schoolNameCell" class="config-input" value="AO2">
+                    </div>
+                    <div class="config-group">
+                        <label class="config-label">خلية الصف</label>
+                        <input type="text" id="gradeCell" class="config-input" value="AO3">
+                    </div>
+                    <div class="config-group">
+                        <label class="config-label">خلية الشعبة</label>
+                        <input type="text" id="academicNumberCell" class="config-input" value="AO4">
+                    </div>
+                    <div class="config-group">
+                        <label class="config-label">خلية إدارة التربية</label>
+                        <input type="text" id="educationManagementCell" class="config-input" value="B4">
                     </div>
                 </div>
             </div>
@@ -1268,6 +1285,12 @@ th, td {
             document.getElementById('startRow').value = '11';
             document.getElementById('endRow').value = '';
             document.getElementById('controlText').value = 'الكنترول';
+            
+            // تعيين القيم الافتراضية للحقول الجديدة
+            document.getElementById('schoolNameCell').value = 'AO2';
+            document.getElementById('gradeCell').value = 'AO3';
+            document.getElementById('academicNumberCell').value = 'AO4';
+            document.getElementById('educationManagementCell').value = 'B4';
 
             // تحديث بيانات الإدارة عند تغيير الحقول
             document.getElementById('controlText').addEventListener('input', function() {
@@ -1373,14 +1396,17 @@ th, td {
                 const endRowInput = document.getElementById('endRow').value;
                 const endRow = endRowInput ? parseInt(endRowInput) : startRow + 50;
 
-                // الحصول على اسم المدرسة من الخلية الثابتة AD2
-                const schoolName = getCellValue(sheet, "AO2") || 'المدرسة';
-                // الحصول على قيمة الصف من الخلية الثابتة AD3
-                const grade = getCellValue(sheet, "AO3") || 'غير محدد';
-                // الحصول على إدارة التربية من الخلية الثابتة B4
-                const educationManagement = getCellValue(sheet, "B4") || 'ادارة التربية بمديرية خمر';
-                // الحصول على رقم الجلوس من الخلية الثابتة AD4
-                const academicNumber = getCellValue(sheet, "AO4") || 'غير محدد';
+                // الحصول على الخلايا المحددة من قبل المستخدم
+                const schoolNameCell = document.getElementById('schoolNameCell').value.toUpperCase();
+                const gradeCell = document.getElementById('gradeCell').value.toUpperCase();
+                const educationManagementCell = document.getElementById('educationManagementCell').value.toUpperCase();
+                const academicNumberCell = document.getElementById('academicNumberCell').value.toUpperCase();
+
+                // الحصول على بيانات المدرسة باستخدام الخلايا المحددة
+                const schoolName = getCellValue(sheet, schoolNameCell) || 'المدرسة';
+                const grade = getCellValue(sheet, gradeCell) || 'غير محدد';
+                const educationManagement = getCellValue(sheet, educationManagementCell) || 'ادارة التربية بمديرية خمر';
+                const academicNumber = getCellValue(sheet, academicNumberCell) || 'غير محدد';
 
                 const reportsContainer = document.getElementById("reports");
                 reportsContainer.innerHTML = "";
@@ -1393,7 +1419,7 @@ th, td {
                 // جمع بيانات الطلاب أولاً
                 for (let row = startRow; row <= endRow; row++) {
                     const name = getCellValue(sheet, nameCell.replace(/\d+/, row)) || '';
-                    // استخدام رقم الجلوس من AD4 بدلاً من الخلية المحددة
+                    // استخدام رقم الجلوس من الخلية المحددة
                     const studentAcademicNumber = academicNumber;
 
                     if (!name && !studentAcademicNumber) continue;
@@ -1596,7 +1622,6 @@ th, td {
                         <div>  مكتب التربية والتعليم والبحث العلمي / عمـران </div>
                         <div>${educationManagement}</div>
                                                
-
                     </div>
                      <div  class="xx"> 
                         <h1> مدرسة ${schoolName}</h1></div>
@@ -1771,9 +1796,28 @@ th, td {
 
         function getCellValue(sheet, cellAddress) {
             try {
+                // التأكد من أن cellAddress صالحة
+                if (!cellAddress || !sheet) return null;
+                
                 const cell = sheet[cellAddress];
-                return cell ? cell.v : null;
+                if (!cell) return null;
+                
+                // معالجة أنواع البيانات المختلفة
+                if (cell.v !== undefined) {
+                    return cell.v;
+                } else if (cell.w !== undefined) {
+                    return cell.w;
+                } else if (cell.t === 's') {
+                    return cell.v;
+                } else if (cell.t === 'n') {
+                    return cell.v;
+                } else if (cell.t === 'b') {
+                    return cell.v ? 'نعم' : 'لا';
+                }
+                
+                return null;
             } catch (error) {
+                console.warn(`خطأ في قراءة الخلية ${cellAddress}:`, error);
                 return null;
             }
         }
@@ -1978,6 +2022,12 @@ th, td {
             document.getElementById('sheetSelector').innerHTML = '<option value="">-- اختر الورقة --</option>';
             document.getElementById('controlText').value = 'الكنترول';
             document.getElementById('managerName').value = '';
+            
+            // إعادة تعيين الحقول الجديدة
+            document.getElementById('schoolNameCell').value = 'AO2';
+            document.getElementById('gradeCell').value = 'AO3';
+            document.getElementById('academicNumberCell').value = 'AO4';
+            document.getElementById('educationManagementCell').value = 'B4';
             
             // إعادة تعيين بيانات الإدارة
             managementData = {
