@@ -707,14 +707,14 @@
         }
         .xx{
               position: absolute;
-            right: 10px;
-            top: 125px;
-            
-            height: 60px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 10px;
+    right: 10px;
+    top: 125px;
+    
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 10px;
     
         }
 
@@ -1048,7 +1048,16 @@
     margin-bottom: 1rem !important;
 }
 
-/* Responsive Design */
+/* تحسينات للجدول مع عدد كبير من المواد */
+table {
+    font-size: 14px; /* تقليل حجم الخط قليلاً */
+}
+
+th, td {
+    padding: 10px 2px; /* تقليل padding */
+    font-size: 16px; /* تقليل حجم الخط */
+}
+
 @media (max-width: 768px) {
     .home-btn {
         padding: 12px 30px;
@@ -1057,6 +1066,15 @@
     
     .home-btn-container {
         margin-bottom: 1.5rem;
+    }
+    
+    table {
+        font-size: 12px;
+    }
+    
+    th, td {
+        padding: 6px 1px;
+        font-size: 12px;
     }
 }
     </style>
@@ -1078,7 +1096,7 @@
         <!-- Upload Section -->
         <section class="upload-section">
             <h2 class="panel-title">تحميل ملف النتائج</h2>
-            <h2 class="panel-title" > الصف السابع - الثامن - التاسع </h2>
+            <h2 class="panel-title">الصف الثاني والثالث الثانوي</h2>
             <div class="upload-area" id="uploadArea">
                 <div class="upload-icon">📊</div>
                 <h3>اسحب وأفلت ملف Excel هنا</h3>
@@ -1197,17 +1215,18 @@
             managerName: ""
         };
 
-        // إعدادات المواد
-        const subjectsConfig = [
-            { name: "القرآن الكريم", mark1Cell: "F", mark2Cell: "G", totalCell: "H" },
-            { name: "التربية الإسلامية", mark1Cell: "I", mark2Cell: "J", totalCell: "K" },
-            { name: "اللغة العربية", mark1Cell: "L", mark2Cell: "M", totalCell: "N" },
-            { name: "اللغة الانجليزية", mark1Cell: "O", mark2Cell: "P", totalCell: "Q" },
-            { name: "الرياضيات", mark1Cell: "R", mark2Cell: "S", totalCell: "T" },
-            { name: "العلوم والصحـة", mark1Cell: "U", mark2Cell: "V", totalCell: "W" },
-            { name: "المواد الاجتماعية", mark1Cell: "X", mark2Cell: "Y", totalCell: "Z" },
-            { name: "السلوك والمواظبة", mark1Cell: "AA", mark2Cell: "AB", totalCell: "AC" }
-        ];
+       // إعدادات المواد للصف الثاني الثانوي
+const subjectsConfig = [
+    { name: "القـرآن الكريـم", mark1Cell: "F", mark2Cell: "G", totalCell: "H" },
+    { name: "التربية الإسلامية", mark1Cell: "I", mark2Cell: "J", totalCell: "K" },
+    { name: "اللغـة العربيـة", mark1Cell: "L", mark2Cell: "M", totalCell: "N" },
+    { name: "اللغـة الانجليزية", mark1Cell: "O", mark2Cell: "P", totalCell: "Q" },
+    { name: "الرياضيــات", mark1Cell: "R", mark2Cell: "S", totalCell: "T" },
+    { name: "الفــيزيــاء", mark1Cell: "U", mark2Cell: "V", totalCell: "W" },
+    { name: "الكيميـــاء", mark1Cell: "X", mark2Cell: "Y", totalCell: "Z" },
+    { name: "الأحيــــاء", mark1Cell: "AA", mark2Cell: "AB", totalCell: "AC" },
+    { name: "السلوك والمواظبة", mark1Cell: "AD", mark2Cell: "AE", totalCell: "AF" }
+];
 
         // إعدادات الأحداث
         document.addEventListener('DOMContentLoaded', function() {
@@ -1296,40 +1315,39 @@
             reader.readAsArrayBuffer(file);
         }
 
-        function updateSheetSelector() {
+       function updateSheetSelector() {
     const sheetSelector = document.getElementById('sheetSelector');
     sheetSelector.innerHTML = '<option value="">-- اختر الصف --</option>';
     
     if (currentWorkbook && currentWorkbook.SheetNames) {
-        // تصفية الأوراق لتظهر فقط التي تحتوي على أسماء الصفوف المطلوبة
+        // تصفية الأوراق لتظهر فقط التي تحتوي على أسماء الصفوف المطلوبة للصف الثاني الثانوي
         const allowedSheets = currentWorkbook.SheetNames.filter(sheetName => {
             const normalizedName = sheetName.trim().toLowerCase();
-            return normalizedName.includes('سابع') || 
-                   normalizedName.includes('ثامن') || 
-                   normalizedName.includes('تاسع') ||
-                   normalizedName.includes('السابع') || 
-                   normalizedName.includes('الثامن') || 
-                   normalizedName.includes('التاسع');
+            return normalizedName.includes('2ث') || 
+                   normalizedName.includes('ثاني ثانوي') || 
+                   normalizedName.includes('الثاني ثانوي') ||
+                   normalizedName.includes('الثاني الثانوي') ||
+                   normalizedName.includes('الحادي عشر');
         });
-        
-        if (allowedSheets.length === 0) {
-            // إذا لم توجد أوراق مطابقة، نعرض رسالة
-            const option = document.createElement('option');
-            option.value = '';
-            option.textContent = 'لم يتم العثور على أوراق للصفوف السابع/الثامن/التاسع';
-            option.disabled = true;
-            sheetSelector.appendChild(option);
-        } else {
-            // عرض الأوراق المطابقة
-            allowedSheets.forEach(sheetName => {
-                const option = document.createElement('option');
-                option.value = sheetName;
-                option.textContent = sheetName;
-                sheetSelector.appendChild(option);
-            });
+                
+                if (allowedSheets.length === 0) {
+                    // إذا لم توجد أوراق مطابقة، نعرض رسالة
+                    const option = document.createElement('option');
+                    option.value = '';
+                    option.textContent = 'لم يتم العثور على أوراق للصفوف المطلوبة';
+                    option.disabled = true;
+                    sheetSelector.appendChild(option);
+                } else {
+                    // عرض الأوراق المطابقة
+                    allowedSheets.forEach(sheetName => {
+                        const option = document.createElement('option');
+                        option.value = sheetName;
+                        option.textContent = sheetName;
+                        sheetSelector.appendChild(option);
+                    });
+                }
+            }
         }
-    }
-}
 
         function processFile() {
             if (!currentWorkbook) {
@@ -1352,13 +1370,13 @@
                 const endRow = endRowInput ? parseInt(endRowInput) : startRow + 50;
 
                 // الحصول على اسم المدرسة من الخلية الثابتة AD2
-                const schoolName = getCellValue(sheet, "AD2") || 'المدرسة';
+                const schoolName = getCellValue(sheet, "AF2") || 'المدرسة';
                 // الحصول على قيمة الصف من الخلية الثابتة AD3
-                const grade = getCellValue(sheet, "AD3") || 'غير محدد';
+                const grade = getCellValue(sheet, "AF3") || 'غير محدد';
                 // الحصول على إدارة التربية من الخلية الثابتة B4
                 const educationManagement = getCellValue(sheet, "B4") || 'ادارة التربية بمديرية خمر';
                 // الحصول على رقم الجلوس من الخلية الثابتة AD4
-                const academicNumber = getCellValue(sheet, "AD4") || 'غير محدد';
+                const academicNumber = getCellValue(sheet, "AF4") || 'غير محدد';
 
                 const reportsContainer = document.getElementById("reports");
                 reportsContainer.innerHTML = "";
@@ -1422,8 +1440,10 @@
 
                 // إنشاء التقارير
                 studentsWithRanks.forEach(student => {
+                    // تحديث المجموع الكلي ليكون 600 بدلاً من 400 (للمواد الجديدة)
+                    const totalMax =450;
                     const percentage = student.subjectsData.length > 0 ? 
-                        Math.round((student.totalSum / 400) * 100) : 0;
+                        Math.round((student.totalSum / totalMax) * 100) : 0;
                     const gradeText = getGrade(percentage);
 
                     // إنشاء جدول المواد
@@ -1529,7 +1549,7 @@
             const hundreds = ['', 'مائة', 'مئتان', 'ثلاثمائة', 'أربعمائة', 'خمسمائة', 'ستمائة', 'سبعمائة', 'ثمانمائة', 'تسعمائة'];
 
             if (number === 0) return 'صفر';
-            if (number > 400) return 'أربعمائة';
+            if (number > 600) return 'ستمائة';
 
             let words = '';
 
@@ -1685,6 +1705,13 @@
             const subjectNames = subjectsData.map(subject => subject.name);
             const subjectTotals = subjectsData.map(subject => subject.total);
 
+            // ألوان إضافية للمواد الجديدة
+            const backgroundColors = [
+              '#4e73df', '#1cc88a', '#36b9cc', '#f6c23e',
+        '#e74a3b', '#858796', '#5a5c69', '#2e59d9',
+        '#6610f2'
+            ];
+
             charts[chartId] = new Chart(ctx, {
                 type: 'bar',
                 data: {
@@ -1692,14 +1719,11 @@
                     datasets: [{
                         label: 'الدرجات',
                         data: subjectTotals,
-                        backgroundColor: [
-                            '#4e73df', '#1cc88a', '#36b9cc', '#f6c23e',
-                            '#e74a3b', '#858796', '#5a5c69', '#2e59d9'
-                        ],
+                        backgroundColor: backgroundColors,
                         borderColor: '#2c3e50',
                         borderWidth: 1,
                         borderRadius: 6,
-                        barThickness: 30
+                        barThickness: 25 // تقليل السماكة لاستيعاب عدد أكبر من المواد
                     }]
                 },
                 options: {
@@ -1721,7 +1745,11 @@
                             grid: { color: 'rgba(0,0,0,0.1)' }
                         },
                         x: {
-                            grid: { display: false }
+                            grid: { display: false },
+                            ticks: {
+                                maxRotation: 45,
+                                minRotation: 45
+                            }
                         }
                     }
                 }
@@ -1819,7 +1847,7 @@
                     const nameB = (b.querySelector('.student-info-value')?.textContent || '').trim();
                     return nameA.localeCompare(nameB, 'ar');
                 });
-            const totalStudents = reportsContainer.children.length;
+            const totalStudents = sortedReports.length;
             const loadingIndicator = createLoadingIndicator(`جاري تحضير ملف PDF... <br><span id="progress">0/${totalStudents}</span>`);
             document.body.appendChild(loadingIndicator);
 
@@ -1857,7 +1885,7 @@
                 }).then(canvas => {
                     try {
                         const imgData = canvas.toDataURL('image/jpeg', 0.7); // ✅ تقليل جودة الصور إلى 0.7
-                        const imgWidth = 190;
+                        const imgWidth = 185;
                         const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
                         if (currentPage > 0) pdf.addPage();
@@ -1906,7 +1934,7 @@
                     const { jsPDF } = window.jspdf;
                     const pdf = new jsPDF('p', 'mm', 'a4');
 
-                    const imgWidth = 195;
+                    const imgWidth = 185;
                     const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
                     pdf.addImage(imgData, 'JPEG', 10, 10, imgWidth, imgHeight);

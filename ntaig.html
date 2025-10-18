@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <title>نظام إصدار نتائج نصف العام - المكتبة المتكاملة للطباعة والتصوير</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2c5aa0;
+            --secondary: #e74c3c;
+            --accent: #27ae60;
+            --light: #f8f9fa;
+            --dark: #2c3e50;
+            --border: #dee2e6;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            color:#000000;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header Styles */
+        .main-header {
+            background: linear-gradient(135deg, var(--primary) 0%, #1e3a8a 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .main-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="rgba(255,255,255,0.1)"><polygon points="50,0 100,50 50,100 0,50"/></svg>');
+            background-size: 80px;
+        }
+
+        .system-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .system-subtitle {
+            font-size: 1.2rem;
+            font-weight: 300;
+            opacity: 0.9;
+        }
+
+        .library-logo {
+            width: 80px;
+            height: 80px;
+            margin: 20px auto 1rem;
+            background: white;
+            border-radius: 50%;
+            padding: 10px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        /* Grade Buttons Section */
+        .grades-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .panel-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            text-align: center;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 0.5rem;
+        }
+
+        .grades-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .grade-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 20px 15px;
+            border-radius: 10px;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow);
+            min-height: 120px;
+        }
+
+        .grade-btn:hover {
+            background: #1e3a8a;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+        }
+
+        .grade-btn .grade-name {
+            font-size: 1.4rem;
+            margin-bottom: 8px;
+        }
+
+        .grade-btn .grade-range {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .system-title {
+                font-size: 2rem;
+            }
+
+            .grades-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Main Header -->
+        <header class="main-header">
+            <div class="library-logo">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Emblem_of_Yemen_%282%29.svg/330px-Emblem_of_Yemen_%282%29.svg.png" alt="شعار المكتبة" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+
+            <h1 class="system-title">نظام إصدار نتائج نصف العام</h1>
+            <p class="system-subtitle">المكتبة المتكاملة للطباعة والتصوير</p>
+        </header>
+
+        <!-- Grades Section -->
+        <section class="grades-section">
+            <h2 class="panel-title">اختر المرحلة الدراسية</h2>
+            <div class="grades-grid">
+                <button class="grade-btn" onclick="window.location.href='one.html'">
+                    <div class="grade-name">الصف الأول + الثاني</div>
+                    <div class="grade-range">المرحلة الابتدائية</div>
+                </button>
+                
+                <button class="grade-btn" onclick="window.location.href='four.html'">
+                    <div class="grade-name">من الثالث إلى السادس</div>
+                    <div class="grade-range">المرحلة الابتدائية</div>
+                </button>
+                
+                <button class="grade-btn" onclick="window.location.href='index.html'">
+                    <div class="grade-name">من السابع إلى التاسع</div>
+                    <div class="grade-range">المرحلة الإعدادية</div>
+                </button>
+                
+                <button class="grade-btn" onclick="window.location.href='thanoy1.html'">
+                    <div class="grade-name">  الاول الثانوي </div>
+                    <div class="grade-range">المرحلة الثانوية</div>
+                </button>
+                
+                <button class="grade-btn" onclick="window.location.href='thanoy2.html'">
+                    <div class="grade-name">الثاني الثانوي</div>
+                    <div class="grade-range">المرحلة الثانوية</div>
+                </button>
+                
+                
+            </div>
+        </section>
+    </div>
+</body>
+</html>

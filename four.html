@@ -11,6 +11,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
+        /* جميع الأنماط تبقى كما هي */
         :root {
             --primary: #2c5aa0;
             --secondary: #e74c3c;
@@ -711,11 +712,11 @@
             top: 125px;
             
             height: 60px;
-            display: flex;
+            display: flex;  
             justify-content: center;
             align-items: center;
             font-size: 10px;
-    
+            
         }
 
         /* إضافة الصورة */
@@ -1062,6 +1063,7 @@
     </style>
 </head>
 <body>
+    
     <div class="container">
         <!-- Main Header -->
         <header class="main-header">
@@ -1070,15 +1072,16 @@
             <h1 class="system-title">نظام إصدار نتائج نصف العام</h1>
             <p class="system-subtitle">المكتبة المتكاملة للطباعة والتصوير</p>
         </header>
-<div class="home-btn-container">
-    <button class="home-btn" onclick="window.location.href='ntaig.html'">
-        🏠 العودة إلى الرئيسية
-    </button>
-</div>
+        <div class="home-btn-container">
+        <button class="home-btn" onclick="window.location.href='ntaig.html'">
+            🏠 العودة إلى الرئيسية
+        </button>
+    </div>
         <!-- Upload Section -->
         <section class="upload-section">
             <h2 class="panel-title">تحميل ملف النتائج</h2>
-            <h2 class="panel-title" > الصف السابع - الثامن - التاسع </h2>
+            <h2 class="panel-title">   الصف الثالث - الرابع - الخامس - السادس
+            </h2>
             <div class="upload-area" id="uploadArea">
                 <div class="upload-icon">📊</div>
                 <h3>اسحب وأفلت ملف Excel هنا</h3>
@@ -1163,6 +1166,7 @@
         <!-- Print Controls -->
         <section class="print-controls" id="printControls">
             <h2 class="panel-title">خيارات الطباعة والتصدير</h2>
+            
             <select class="student-selector" id="studentSelector">
                 <option value="">-- اختر طالب --</option>
             </select>
@@ -1197,12 +1201,11 @@
             managerName: ""
         };
 
-        // إعدادات المواد
+        // إعدادات المواد للصف الثالث إلى السادس (بدون اللغة الإنجليزية)
         const subjectsConfig = [
             { name: "القرآن الكريم", mark1Cell: "F", mark2Cell: "G", totalCell: "H" },
             { name: "التربية الإسلامية", mark1Cell: "I", mark2Cell: "J", totalCell: "K" },
             { name: "اللغة العربية", mark1Cell: "L", mark2Cell: "M", totalCell: "N" },
-            { name: "اللغة الانجليزية", mark1Cell: "O", mark2Cell: "P", totalCell: "Q" },
             { name: "الرياضيات", mark1Cell: "R", mark2Cell: "S", totalCell: "T" },
             { name: "العلوم والصحـة", mark1Cell: "U", mark2Cell: "V", totalCell: "W" },
             { name: "المواد الاجتماعية", mark1Cell: "X", mark2Cell: "Y", totalCell: "Z" },
@@ -1297,39 +1300,21 @@
         }
 
         function updateSheetSelector() {
-    const sheetSelector = document.getElementById('sheetSelector');
-    sheetSelector.innerHTML = '<option value="">-- اختر الصف --</option>';
-    
-    if (currentWorkbook && currentWorkbook.SheetNames) {
-        // تصفية الأوراق لتظهر فقط التي تحتوي على أسماء الصفوف المطلوبة
-        const allowedSheets = currentWorkbook.SheetNames.filter(sheetName => {
-            const normalizedName = sheetName.trim().toLowerCase();
-            return normalizedName.includes('سابع') || 
-                   normalizedName.includes('ثامن') || 
-                   normalizedName.includes('تاسع') ||
-                   normalizedName.includes('السابع') || 
-                   normalizedName.includes('الثامن') || 
-                   normalizedName.includes('التاسع');
-        });
-        
-        if (allowedSheets.length === 0) {
-            // إذا لم توجد أوراق مطابقة، نعرض رسالة
-            const option = document.createElement('option');
-            option.value = '';
-            option.textContent = 'لم يتم العثور على أوراق للصفوف السابع/الثامن/التاسع';
-            option.disabled = true;
-            sheetSelector.appendChild(option);
-        } else {
-            // عرض الأوراق المطابقة
-            allowedSheets.forEach(sheetName => {
-                const option = document.createElement('option');
-                option.value = sheetName;
-                option.textContent = sheetName;
-                sheetSelector.appendChild(option);
-            });
+            const sheetSelector = document.getElementById('sheetSelector');
+            sheetSelector.innerHTML = '<option value="">-- اختر الصف --</option>';
+            
+            if (currentWorkbook && currentWorkbook.SheetNames) {
+                currentWorkbook.SheetNames.forEach(sheetName => {
+                    // تعديل خاص: إظهار الأوراق التي تحتوي على الثالث/ثالث/الرابع/رابع/الخامس/خامس/السادس/سادس فقط
+                    if (/(^|\s)(الثالث|ثالث|الرابع|رابع|الخامس|خامس|السادس|سادس)(\s|$)/.test(sheetName)) {
+                        const option = document.createElement('option');
+                        option.value = sheetName;
+                        option.textContent = sheetName;
+                        sheetSelector.appendChild(option);
+                    }
+                });
+            }
         }
-    }
-}
 
         function processFile() {
             if (!currentWorkbook) {
@@ -1349,7 +1334,15 @@
                 const idCell = document.getElementById('idCell').value.toUpperCase();
                 const startRow = parseInt(document.getElementById('startRow').value);
                 const endRowInput = document.getElementById('endRow').value;
-                const endRow = endRowInput ? parseInt(endRowInput) : startRow + 50;
+
+                // اكتشاف نهاية الصفوف تلقائياً حتى صف فارغ
+                let dynamicEndRow = startRow;
+                while (getCellValue(sheet, nameCell.replace(/\d+/, dynamicEndRow))) {
+                    dynamicEndRow++;
+                    // حماية ضد حلقة لا نهائية
+                    if (dynamicEndRow - startRow > 1000) break;
+                }
+                const endRow = endRowInput ? parseInt(endRowInput) : (dynamicEndRow - 1);
 
                 // الحصول على اسم المدرسة من الخلية الثابتة AD2
                 const schoolName = getCellValue(sheet, "AD2") || 'المدرسة';
@@ -1359,6 +1352,9 @@
                 const educationManagement = getCellValue(sheet, "B4") || 'ادارة التربية بمديرية خمر';
                 // الحصول على رقم الجلوس من الخلية الثابتة AD4
                 const academicNumber = getCellValue(sheet, "AD4") || 'غير محدد';
+
+                // استخدام المواد المخصصة للصف الثالث إلى السادس (بدون الإنجليزية)
+                const filteredSubjects = subjectsConfig;
 
                 const reportsContainer = document.getElementById("reports");
                 reportsContainer.innerHTML = "";
@@ -1381,7 +1377,7 @@
                     let subjectsData = [];
                     let hasAnyData = false;
 
-                    for (const subject of subjectsConfig) {
+                    for (const subject of filteredSubjects) {
                         const mark1 = getCellValue(sheet, subject.mark1Cell + row) || 0;
                         const mark2 = getCellValue(sheet, subject.mark2Cell + row) || 0;
                         const total = getCellValue(sheet, subject.totalCell + row) || 0;
@@ -1422,8 +1418,10 @@
 
                 // إنشاء التقارير
                 studentsWithRanks.forEach(student => {
+                    // المجموع الكلي 350 درجة (7 مواد × 50 درجة)
+                    const totalMax = 350;
                     const percentage = student.subjectsData.length > 0 ? 
-                        Math.round((student.totalSum / 400) * 100) : 0;
+                        Math.round((student.totalSum / totalMax) * 100) : 0;
                     const gradeText = getGrade(percentage);
 
                     // إنشاء جدول المواد
@@ -1529,7 +1527,7 @@
             const hundreds = ['', 'مائة', 'مئتان', 'ثلاثمائة', 'أربعمائة', 'خمسمائة', 'ستمائة', 'سبعمائة', 'ثمانمائة', 'تسعمائة'];
 
             if (number === 0) return 'صفر';
-            if (number > 400) return 'أربعمائة';
+            if (number > 350) return 'ثلاثمائة وخمسون';
 
             let words = '';
 
@@ -1694,7 +1692,7 @@
                         data: subjectTotals,
                         backgroundColor: [
                             '#4e73df', '#1cc88a', '#36b9cc', '#f6c23e',
-                            '#e74a3b', '#858796', '#5a5c69', '#2e59d9'
+                            '#e74a3b', '#858796', '#5a5c69'
                         ],
                         borderColor: '#2c3e50',
                         borderWidth: 1,
@@ -1807,78 +1805,77 @@
         }
 
         function exportAllStudentsToPDF() {
-            const reportsContainer = document.getElementById('reports');
-            if (!reportsContainer || reportsContainer.children.length === 0) {
-                alert('لا توجد تقارير لتصديرها');
-                return;
-            }
-            // ✅ تصحيح: ترتيب الطلاب أبجدياً حسب الاسم قبل التصدير
-                const reportElements = Array.from(reportsContainer.children);
-                const sortedReports = reportElements.sort((a, b) => {
-                    const nameA = (a.querySelector('.student-info-value')?.textContent || '').trim();
-                    const nameB = (b.querySelector('.student-info-value')?.textContent || '').trim();
-                    return nameA.localeCompare(nameB, 'ar');
-                });
-            const totalStudents = reportsContainer.children.length;
-            const loadingIndicator = createLoadingIndicator(`جاري تحضير ملف PDF... <br><span id="progress">0/${totalStudents}</span>`);
-            document.body.appendChild(loadingIndicator);
+    const reportsContainer = document.getElementById('reports');
+    if (!reportsContainer || reportsContainer.children.length === 0) {
+        alert('لا توجد تقارير لتصديرها');
+        return;
+    }
 
-            if (!window.jspdf) {
-                alert('مكتبة jsPDF غير محملة');
-                document.body.removeChild(loadingIndicator);
-                return;
-            }
+    // ✅ تعديل خاص: ترتيب الطلاب أبجدياً حسب الاسم قبل التصدير
+   const sortedReports = Array.from(reportsContainer.children).sort((a, b) => {
+        const nameA = (a.querySelector('.student-info-value')?.textContent || '').trim();
+        const nameB = (b.querySelector('.student-info-value')?.textContent || '').trim();
+        return nameA.localeCompare(nameB, 'ar');
+    });
 
-            const { jsPDF } = window.jspdf;
-            const pdf = new jsPDF('p', 'mm', 'a4');
-            let currentPage = 0;
+    const totalStudents = sortedReports.length;
+    const loadingIndicator = createLoadingIndicator(`جاري تحضير ملف PDF... <br><span id="progress">0/${totalStudents}</span>`);
+    document.body.appendChild(loadingIndicator);
 
-            function processNextReport(index) {
-                if (index >= totalStudents) {
-                    pdf.save('تقارير_جميع_الطلاب.pdf');
-                    document.body.removeChild(loadingIndicator);
-                    return;
-                }
+    if (!window.jspdf) {
+        alert('مكتبة jsPDF غير محملة');
+        document.body.removeChild(loadingIndicator);
+        return;
+    }
 
-                // تحديث مؤشر التقدم
-                document.getElementById('progress').textContent = `${index + 1}/${totalStudents}`;
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF('p', 'mm', 'a4');
+    let currentPage = 0;
 
-        const reportElement = sortedReports[index];
-                
-                html2canvas(reportElement, {
-                    scale: 1.2, // ✅ تقليل scale من 1.5 إلى 1.2
-                    useCORS: true,
-                    allowTaint: true,
-                    logging: false,
-                    backgroundColor: '#ffffff',
-                    removeContainer: true,
-                    width: reportElement.scrollWidth,
-                    height: reportElement.scrollHeight
-                }).then(canvas => {
-                    try {
-                        const imgData = canvas.toDataURL('image/jpeg', 0.7); // ✅ تقليل جودة الصور إلى 0.7
-                        const imgWidth = 190;
-                        const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-                        if (currentPage > 0) pdf.addPage();
-                        pdf.addImage(imgData, 'JPEG', 10, 10, imgWidth, imgHeight);
-
-                        currentPage++;
-                        setTimeout(() => processNextReport(index + 1), 300); // ✅ تقليل وقت الانتظار بين الصفحات إلى 300 مللي ثانية
-                    } catch (error) {
-                        console.error('⚠️ خطأ في معالجة الصورة:', error);
-                        document.body.removeChild(loadingIndicator);
-                        alert('حدث خطأ أثناء إنشاء ملف PDF');
-                    }
-                }).catch(error => {
-                    console.error('⚠️ خطأ في html2canvas:', error);
-                    document.body.removeChild(loadingIndicator);
-                    alert('حدث خطأ أثناء إنشاء ملف PDF');
-                });
-            }
-
-            processNextReport(0);
+    function processNextReport(index) {
+        if (index >= totalStudents) {
+            pdf.save('تقارير_جميع_الطلاب.pdf');
+            document.body.removeChild(loadingIndicator);
+            return;
         }
+
+        document.getElementById('progress').textContent = `${index + 1}/${totalStudents}`;
+        const reportElement = sortedReports[index];
+
+        html2canvas(reportElement, {
+            scale: 1.2,
+            useCORS: true,
+            allowTaint: true,
+            logging: false,
+            backgroundColor: '#ffffff',
+            removeContainer: true,
+            width: reportElement.scrollWidth,
+            height: reportElement.scrollHeight
+        }).then(canvas => {
+            try {
+                const imgData = canvas.toDataURL('image/jpeg', 0.7);
+                const imgWidth = 195;
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+                if (currentPage > 0) pdf.addPage();
+                pdf.addImage(imgData, 'JPEG', 10, 10, imgWidth, imgHeight);
+
+                currentPage++;
+                setTimeout(() => processNextReport(index + 1), 300);
+            } catch (error) {
+                console.error('⚠️ خطأ في معالجة الصورة:', error);
+                document.body.removeChild(loadingIndicator);
+                alert('حدث خطأ أثناء إنشاء ملف PDF');
+            }
+        }).catch(error => {
+            console.error('⚠️ خطأ في html2canvas:', error);
+            document.body.removeChild(loadingIndicator);
+            alert('حدث خطأ أثناء إنشاء ملف PDF');
+        });
+    }
+
+    processNextReport(0);
+}
 
         function exportSingleElementToPDF(element, filename) {
             const loadingIndicator = createLoadingIndicator('جاري تحضير ملف PDF...');
