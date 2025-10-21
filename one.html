@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
     <meta charset="UTF-8" />
     <title>نظام إصدار نتائج نصف العام - المكتبة المتكاملة للطباعة والتصوير</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- إضافة مكتبة jsPDF -->
@@ -31,7 +31,7 @@
             font-family: 'Tajawal', sans-serif;
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             min-height: 100vh;
-            color:#000000;
+            color: #000000;
             line-height: 1.6;
         }
 
@@ -69,7 +69,7 @@
             font-size: 2.5rem;
             font-weight: 800;
             margin-bottom: 0.5rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .system-subtitle {
@@ -150,7 +150,7 @@
         .btn:hover {
             background: #1e3a8a;
             transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
 
         .btn-secondary {
@@ -305,13 +305,13 @@
             background: #fff;
             padding: 18px;
             border-radius: 6px;
-            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
             border: 1px solid #d6d6d6;
             position: relative;
             font-family: 'Tajawal', sans-serif;
-                font-weight: 1000;
+            font-weight: 1000;
         }
-        
+
 
         .report-header {
             display: flex;
@@ -347,16 +347,17 @@
             text-align: center;
         }
 
-        .school-title h1 { 
-            margin: 0; 
-            font-size: 28px; 
-            font-weight: 800; 
+        .school-title h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 800;
             color: #0b6b3b;
             font-family: 'Tajawal', sans-serif;
         }
-        .school-title p { 
-            margin: 5px 0; 
-            color: #000; 
+
+        .school-title p {
+            margin: 5px 0;
+            color: #000;
             font-weight: 700;
             font-size: 20PX;
             font-family: 'Tajawal', sans-serif;
@@ -364,7 +365,7 @@
 
         .gov-info {
             position: absolute;
-           
+
             top: 33px;
             height: 90px;
             display: flex;
@@ -372,7 +373,7 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-         
+
             border-radius: 6px;
             font-size: 14px;
             line-height: 2.3;
@@ -380,8 +381,9 @@
             font-weight: 1000;
             font-family: 'Tajawal', sans-serif;
         }
-          .gov-info.h1 {
-          
+
+        .gov-info.h1 {
+
             border-radius: 6px;
             padding: 8px;
             font-size: 16px;
@@ -414,7 +416,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: linear-gradient(180deg,#ffffff,#fbfbfb);
+            background: linear-gradient(180deg, #ffffff, #fbfbfb);
             border: 2px solid #e6e6e6;
             padding: 15px 20px;
             border-radius: 8px;
@@ -422,7 +424,7 @@
             font-family: 'Tajawal', sans-serif;
             font-weight: 1000;
             font-size: 20px;
-             border-radius: 8px;
+            border-radius: 8px;
         }
 
         .student-info-item {
@@ -441,29 +443,30 @@
             font-weight: 1000;
         }
 
-        .absence-summary { 
-            display:flex; 
-            gap:95px; 
-            justify-content:flex-start; 
-            margin-top:10px; 
-            margin-bottom:6px; 
+        .absence-summary {
+            display: flex;
+            gap: 95px;
+            justify-content: flex-start;
+            margin-top: 10px;
+            margin-bottom: 6px;
             font-family: 'Tajawal', sans-serif;
-             font-weight: 1000;
-             font-size: 20px;
+            font-weight: 1000;
+            font-size: 20px;
         }
-        .absence-box { 
-            background:#fff; 
-            border:2px solid #e6e6e6; 
-            padding:8px 12px; 
-            border-radius:6px; 
-            min-width:150px; 
-            text-align:center; 
-            font-weight:700;
+
+        .absence-box {
+            background: #fff;
+            border: 2px solid #e6e6e6;
+            padding: 8px 12px;
+            border-radius: 6px;
+            min-width: 150px;
+            text-align: center;
+            font-weight: 700;
             font-family: 'Tajawal', sans-serif;
         }
 
-        .chart-container { 
-            margin-top: 20px; 
+        .chart-container {
+            margin-top: 20px;
             max-width: 100%;
             height: 300px;
             position: relative;
@@ -486,32 +489,38 @@
             border: 1px solid #e6e6e6;
             padding: 10px 12px;
             border-radius: 6px;
-            background: linear-gradient(180deg,#ffffff,#fbfbfb);
+            background: linear-gradient(180deg, #ffffff, #fbfbfb);
             flex-direction: column;
             align-items: flex-end;
             font-family: 'Tajawal', sans-serif;
         }
 
-        .student-meta { 
-            text-align: right; 
-            width:100%; 
+        .student-meta {
+            text-align: right;
+            width: 100%;
             font-family: 'Tajawal', sans-serif;
         }
-        .student-meta div { 
-            padding:6px 0; 
-            border-bottom: 1px dashed #eee; 
+
+        .student-meta div {
+            padding: 6px 0;
+            border-bottom: 1px dashed #eee;
             font-size: 15px;
             font-family: 'Tajawal', sans-serif;
         }
-        .student-meta div:last-child { border-bottom: none; }
-        .student-meta strong { 
-            display: contents; 
-            min-width: 110px; 
-            color:#333;
+
+        .student-meta div:last-child {
+            border-bottom: none;
+        }
+
+        .student-meta strong {
+            display: contents;
+            min-width: 110px;
+            color: #333;
             font-family: 'Tajawal', sans-serif;
         }
-        .student-meta { 
-            font-weight: 600; 
+
+        .student-meta {
+            font-weight: 600;
             color: #222;
             font-family: 'Tajawal', sans-serif;
         }
@@ -524,13 +533,14 @@
             font-family: 'Tajawal', sans-serif;
         }
 
-        th, td {
+        th,
+        td {
             border: 4px solid #000000;
             padding: 12px 0px;
             text-align: center;
             vertical-align: middle;
             font-family: 'Tajawal', sans-serif;
-          
+
         }
 
         thead th {
@@ -542,8 +552,8 @@
             font-size: 22px;
         }
 
-        tbody td { 
-            background: #fff; 
+        tbody td {
+            background: #fff;
             font-size: 26px;
             font-weight: 1000;
         }
@@ -596,8 +606,8 @@
             font-family: 'Tajawal', sans-serif;
         }
 
-        .notes .note h4 { 
-            margin: 0 0 6px 0; 
+        .notes .note h4 {
+            margin: 0 0 6px 0;
             font-size: 18px;
             font-family: 'Tajawal', sans-serif;
         }
@@ -705,17 +715,18 @@
             font-size: 14px;
             font-family: 'Tajawal', sans-serif;
         }
-        .xx{
-              position: absolute;
+
+        .xx {
+            position: absolute;
             right: 10px;
             top: 125px;
-            
+
             height: 60px;
             display: flex;
             justify-content: center;
             align-items: center;
             font-size: 10px;
-    
+
         }
 
         /* إضافة الصورة */
@@ -726,7 +737,7 @@
             margin: 10px auto;
             display: block;
             border-radius: 8px;
-       ;
+            ;
         }
 
         /* Print Styles محسنة لتناسب A4 */
@@ -779,7 +790,7 @@
                 font-size: 18pt;
                 margin-bottom: 2mm;
             }
-            
+
             .school-title p {
                 font-size: 12pt;
                 margin-bottom: 2mm;
@@ -810,11 +821,12 @@
                 border-radius: 8px;
             }
 
-            th, td {
+            th,
+            td {
                 padding: 8px 6px;
                 font-size: 10pt;
                 font-weight: 700;
-                 border-radius: 8px;
+                border-radius: 8px;
             }
 
             thead th {
@@ -936,19 +948,22 @@
                 height: 300px;
             }
 
-            .school-header-content { flex-direction: column; }
-            .gov-info { 
-                position: relative; 
-                right: auto; 
-                top: auto; 
-                width: 100%; 
+            .school-header-content {
+                flex-direction: column;
+            }
+
+            .gov-info {
+                position: relative;
+                right: auto;
+                top: auto;
+                width: 100%;
                 margin-bottom: 10px;
             }
 
             .school-title h1 {
                 font-size: 24px;
             }
-            
+
             .school-title p {
                 font-size: 18px;
             }
@@ -998,7 +1013,8 @@
                 font-size: 14px;
             }
 
-            th, td {
+            th,
+            td {
                 padding: 8px 4px;
                 font-size: 14px;
             }
@@ -1007,60 +1023,63 @@
                 max-width: 250px;
             }
         }
+
         /* زر الرئيسية تحت عنوان النظام */
-.home-btn-container {
-    text-align: center;
-    margin-bottom: 2rem;
-    margin-top: -0.5rem; /* لتقريب الزر من الهيدر */
-}
+        .home-btn-container {
+            text-align: center;
+            margin-bottom: 2rem;
+            margin-top: -0.5rem;
+            /* لتقريب الزر من الهيدر */
+        }
 
-.home-btn {
-    background: linear-gradient(135deg, var(--accent) 0%, #219a52 100%);
-    color: white;
-    border: none;
-    padding: 15px 40px;
-    border-radius: 50px;
-    font-family: 'Tajawal', sans-serif;
-    font-size: 1.2rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: var(--shadow);
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    position: relative;
-    z-index: 10;
-}
+        .home-btn {
+            background: linear-gradient(135deg, var(--accent) 0%, #219a52 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+            z-index: 10;
+        }
 
-.home-btn:hover {
-    background: linear-gradient(135deg, #219a52 0%, #1e7e46 100%);
-    transform: translateY(-3px);
-    box-shadow: 0 8px 15px rgba(0,0,0,0.2);
-}
+        .home-btn:hover {
+            background: linear-gradient(135deg, #219a52 0%, #1e7e46 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
 
-.home-btn:active {
-    transform: translateY(-1px);
-}
+        .home-btn:active {
+            transform: translateY(-1px);
+        }
 
-/* تعديل الهيدر ليكون أقرب للزر */
-.main-header {
-    margin-bottom: 1rem !important;
-}
+        /* تعديل الهيدر ليكون أقرب للزر */
+        .main-header {
+            margin-bottom: 1rem !important;
+        }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    .home-btn {
-        padding: 12px 30px;
-        font-size: 1.1rem;
-    }
-    
-    .home-btn-container {
-        margin-bottom: 1.5rem;
-    }
-}
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .home-btn {
+                padding: 12px 30px;
+                font-size: 1.1rem;
+            }
+
+            .home-btn-container {
+                margin-bottom: 1.5rem;
+            }
+        }
     </style>
 </head>
+
 <body>
     <div class="container">
         <!-- Main Header -->
@@ -1077,7 +1096,8 @@
         </div>
         <!-- Upload Section -->
         <section class="upload-section">
-            <h2 class="panel-title">تحميل ملف النتائج</h2><h2 class="panel-title">   الصف الاول     -   الثاني الاساسي 
+            <h2 class="panel-title">تحميل ملف النتائج</h2>
+            <h2 class="panel-title"> الصف الاول - الثاني الاساسي
             </h2>
             <div class="upload-area" id="uploadArea">
                 <div class="upload-icon">📊</div>
@@ -1119,7 +1139,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- زر الإدارة -->
             <div style="text-align: center; margin: 1rem 0;">
                 <button class="btn" onclick="toggleAdminSettings()" style="background: #8e44ad;">
@@ -1128,7 +1148,8 @@
             </div>
 
             <!-- قسم الإعدادات المتقدمة (مخفي افتراضياً) -->
-            <div id="adminSettings" style="display: none; margin-top: 1.5rem; padding: 1.5rem; background: #f8f9fa; border-radius: 10px; border: 1px solid #dee2e6;">
+            <div id="adminSettings"
+                style="display: none; margin-top: 1.5rem; padding: 1.5rem; background: #f8f9fa; border-radius: 10px; border: 1px solid #dee2e6;">
                 <h3 style="color: #8e44ad; margin-bottom: 1rem; text-align: center;">الإعدادات المتقدمة</h3>
                 <div class="config-grid">
                     <div class="config-group">
@@ -1210,21 +1231,21 @@
         ];
 
         // إعدادات الأحداث
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // تحميل الملف
             document.getElementById('excelFile').addEventListener('change', handleFileUpload);
-            
+
             // سحب وإفلات الملف
             const uploadArea = document.getElementById('uploadArea');
             uploadArea.addEventListener('dragover', (e) => {
                 e.preventDefault();
                 uploadArea.classList.add('dragover');
             });
-            
+
             uploadArea.addEventListener('dragleave', () => {
                 uploadArea.classList.remove('dragover');
             });
-            
+
             uploadArea.addEventListener('drop', (e) => {
                 e.preventDefault();
                 uploadArea.classList.remove('dragover');
@@ -1248,11 +1269,11 @@
             document.getElementById('controlText').value = 'الكنترول';
 
             // تحديث بيانات الإدارة عند تغيير الحقول
-            document.getElementById('controlText').addEventListener('input', function() {
+            document.getElementById('controlText').addEventListener('input', function () {
                 managementData.controlText = this.value || "الكنترول";
             });
 
-            document.getElementById('managerName').addEventListener('input', function() {
+            document.getElementById('managerName').addEventListener('input', function () {
                 managementData.managerName = this.value;
             });
         });
@@ -1272,25 +1293,25 @@
             if (!file) return;
 
             const reader = new FileReader();
-            reader.onload = function(event) {
+            reader.onload = function (event) {
                 try {
                     const data = new Uint8Array(event.target.result);
                     currentWorkbook = XLSX.read(data, { type: 'array' });
                     document.getElementById('configPanel').style.display = 'block';
-                    
+
                     // تحديث قائمة الأوراق المنسدلة
                     updateSheetSelector();
-                    
+
                     // تحريك الصفحة إلى قسم الإعدادات
-                    document.getElementById('configPanel').scrollIntoView({ 
-                        behavior: 'smooth' 
+                    document.getElementById('configPanel').scrollIntoView({
+                        behavior: 'smooth'
                     });
                 } catch (error) {
                     console.error("Error processing file:", error);
                     alert("حدث خطأ أثناء معالجة الملف. يرجى التأكد من صيغة الملف.");
                 }
             };
-            reader.onerror = function() {
+            reader.onerror = function () {
                 alert("حدث خطأ أثناء قراءة الملف.");
             };
             reader.readAsArrayBuffer(file);
@@ -1299,7 +1320,7 @@
         function updateSheetSelector() {
             const sheetSelector = document.getElementById('sheetSelector');
             sheetSelector.innerHTML = '<option value="">-- اختر الصف --</option>';
-            
+
             if (currentWorkbook && currentWorkbook.SheetNames) {
                 currentWorkbook.SheetNames.forEach(sheetName => {
                     // تعديل خاص: إظهار الأوراق التي تحتوي على الأول/اول/الثاني/ثاني فقط
@@ -1352,15 +1373,15 @@
 
                 // تعديل خاص: تصفية المواد إذا كان الصف الأول (حذف الانجليزي والاجتماعيات)
                 let filteredSubjects = subjectsConfig;
-                    const gradeText = grade + '';
+                const gradeText = grade + '';
 
-                    // إزالة الإنجليزية والاجتماعيات من جميع الصفوف
-                    filteredSubjects = subjectsConfig.filter(s => 
-                        s.name !== "اللغة الانجليزية" && s.name !== "المواد الاجتماعية"
-                    );
+                // إزالة الإنجليزية والاجتماعيات من جميع الصفوف
+                filteredSubjects = subjectsConfig.filter(s =>
+                    s.name !== "اللغة الانجليزية" && s.name !== "المواد الاجتماعية"
+                );
 
-                    console.log("✅ تم إزالة الإنجليزية والاجتماعيات من جميع الصفوف");
-                    console.log("المواد المتبقية:", filteredSubjects.map(s => s.name));
+                console.log("✅ تم إزالة الإنجليزية والاجتماعيات من جميع الصفوف");
+                console.log("المواد المتبقية:", filteredSubjects.map(s => s.name));
 
                 const reportsContainer = document.getElementById("reports");
                 reportsContainer.innerHTML = "";
@@ -1405,7 +1426,7 @@
                         totalSum: totalSum,
                         subjectsData: subjectsData
                     });
-                    
+
                     studentCount++;
                 }
 
@@ -1424,17 +1445,17 @@
 
                 // إنشاء التقارير
                 studentsWithRanks.forEach(student => {
-                                const totalMax = 300;
-                const percentage = student.subjectsData.length > 0 ? 
-                    Math.round((student.totalSum / totalMax) * 100) : 0;
-                const gradeText = getGrade(percentage);
+                    const totalMax = 300;
+                    const percentage = student.subjectsData.length > 0 ?
+                        Math.round((student.totalSum / totalMax) * 100) : 0;
+                    const gradeText = getGrade(percentage);
 
                     // إنشاء جدول المواد
                     let subjectsTable = "";
                     for (const subject of student.subjectsData) {
                         const isFailed = subject.total < 25;
                         const rowClass = isFailed ? 'class="failed-subject"' : '';
-                        
+
                         subjectsTable += `
                             <tr ${rowClass}>
                                 <td>${subject.name}</td>
@@ -1446,7 +1467,7 @@
 
                     const reportHTML = createReportHTML(schoolName, student.name, student.academicNumber, grade, educationManagement,
                         subjectsTable, student.subjectsData, percentage, gradeText, student.totalSum, student.row, student.rank);
-                    
+
                     reportsContainer.innerHTML += reportHTML;
                     studentReports.push({
                         id: `report_${student.row}`,
@@ -1460,10 +1481,10 @@
                     document.getElementById('reportsSection').style.display = 'block';
                     document.getElementById('printControls').style.display = 'block';
                     updateStudentSelector();
-                    
+
                     // تحميل الصور من النت
                     loadExternalImages();
-                    
+
                     // إنشاء الرسوم البيانية بعد تحميل DOM
                     setTimeout(() => {
                         studentReports.forEach(report => {
@@ -1519,11 +1540,18 @@
 
         // دالة لتحميل الصور من النت
         function loadExternalImages() {
-            const images = document.querySelectorAll('img[src^="http"]');
-            images.forEach(img => {
-                img.crossOrigin = 'Anonymous';
-            });
-        }
+    const images = document.querySelectorAll('img[src^="http"]');
+    images.forEach(img => {
+        img.crossOrigin = 'Anonymous';
+        // ⬆️ إضافة تحميل مسبق للصور
+        img.onload = function() {
+            console.log('✅ تم تحميل الصورة:', img.src);
+        };
+        img.onerror = function() {
+            console.log('❌ فشل تحميل الصورة:', img.src);
+        };
+    });
+}
 
         function convertNumberToArabicWords(number) {
             const units = ['', 'واحد', 'اثنان', 'ثلاثة', 'أربعة', 'خمسة', 'ستة', 'سبعة', 'ثمانية', 'تسعة'];
@@ -1564,8 +1592,8 @@
             return words + ' درجة';
         }
 
-        function createReportHTML(schoolName, name, academicNumber, grade, educationManagement, subjectsTable, 
-                                subjectsData, percentage, gradeText, totalSum, row, rank) {
+        function createReportHTML(schoolName, name, academicNumber, grade, educationManagement, subjectsTable,
+            subjectsData, percentage, gradeText, totalSum, row, rank) {
             return `
             <div class="report-card" id="report_${row}">
                 <div class="report-header">
@@ -1587,7 +1615,7 @@
                             <div class="library-logo">
     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Emblem_of_Yemen_%282%29.svg/330px-Emblem_of_Yemen_%282%29.svg.png" alt="شعار المكتبة" style=" height: 150%;  object-fit: cover;">
 </div>
-                                <p>نتيجة نهاية الفصل الدراسي الأول 1447هـ 2025م - 2026م </p>
+                                <p>نتيجة نهاية الفصل الدراسي الأول 1447هـ 2015م - 2026م </p>
                             </div>
                         </div>
                     </div>
@@ -1752,7 +1780,7 @@
         function updateStudentSelector() {
             const selector = document.getElementById('studentSelector');
             selector.innerHTML = '<option value="">-- اختر طالب --</option>';
-            
+
             studentReports.forEach(report => {
                 const option = document.createElement('option');
                 option.value = report.id;
@@ -1770,7 +1798,7 @@
 
             const originalContent = document.body.innerHTML;
             const reportElement = document.getElementById(selectedId);
-            
+
             if (reportElement) {
                 document.body.innerHTML = reportElement.outerHTML;
                 setTimeout(() => {
@@ -1784,7 +1812,7 @@
         function printAllStudents() {
             const originalContent = document.body.innerHTML;
             const reportsContainer = document.getElementById('reports');
-            
+
             document.body.innerHTML = reportsContainer.innerHTML;
             setTimeout(() => {
                 window.print();
@@ -1809,7 +1837,7 @@
             }
         }
 
-        function exportAllStudentsToPDF() {
+       function exportAllStudentsToPDF() {
     const reportsContainer = document.getElementById('reports');
     if (!reportsContainer || reportsContainer.children.length === 0) {
         alert('لا توجد تقارير لتصديرها');
@@ -1847,26 +1875,37 @@
         document.getElementById('progress').textContent = `${index + 1}/${totalStudents}`;
         const reportElement = sortedReports[index];
 
+        // ⭐ التعديل هنا - تحسين إعدادات html2canvas
         html2canvas(reportElement, {
-            scale: 1.2,
+            scale: 2.5,                    // ⬆️ كان 1.2 - الآن 2.5
+            dpi: 300,                      // ⬆️ إضافة دقة عالية
             useCORS: true,
             allowTaint: true,
             logging: false,
             backgroundColor: '#ffffff',
             removeContainer: true,
             width: reportElement.scrollWidth,
-            height: reportElement.scrollHeight
+            height: reportElement.scrollHeight,
+            onclone: function(clonedDoc) {
+                // ⬆️ تحسين النص في النسخة المستنسخة
+                const allElements = clonedDoc.querySelectorAll('*');
+                allElements.forEach(el => {
+                    el.style.fontSmoothing = 'antialiased';
+                    el.style.webkitFontSmoothing = 'antialiased';
+                });
+            }
         }).then(canvas => {
             try {
-                const imgData = canvas.toDataURL('image/jpeg', 0.7);
+                // ⭐ التعديل هنا - تغيير الجودة والصيغة
+                const imgData = canvas.toDataURL('image/png', 1.0); // ⬆️ كان jpeg 0.7 - الآن png 1.0
                 const imgWidth = 195;
                 const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
                 if (currentPage > 0) pdf.addPage();
-                pdf.addImage(imgData, 'JPEG', 10, 10, imgWidth, imgHeight);
+                pdf.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight); // ⬆️ تغيير إلى PNG
 
                 currentPage++;
-                setTimeout(() => processNextReport(index + 1), 300);
+                setTimeout(() => processNextReport(index + 1), 800); // ⬆️ زيادة التأخير إلى 800 مللي
             } catch (error) {
                 console.error('⚠️ خطأ في معالجة الصورة:', error);
                 document.body.removeChild(loadingIndicator);
@@ -1883,46 +1922,55 @@
 }
 
         function exportSingleElementToPDF(element, filename) {
-            const loadingIndicator = createLoadingIndicator('جاري تحضير ملف PDF...');
-            document.body.appendChild(loadingIndicator);
+    const loadingIndicator = createLoadingIndicator('جاري تحضير ملف PDF...');
+    document.body.appendChild(loadingIndicator);
 
-            if (!window.jspdf) {
-                alert('مكتبة jsPDF غير محملة');
-                document.body.removeChild(loadingIndicator);
-                return;
-            }
+    if (!window.jspdf) {
+        alert('مكتبة jsPDF غير محملة');
+        document.body.removeChild(loadingIndicator);
+        return;
+    }
 
-            // إضافة تأخير لتحميل العناصر الديناميكية
-            setTimeout(() => {
-                html2canvas(element, {
-                    scale: 1.2,
-                    useCORS: true,
-                    allowTaint: true,
-                    logging: false,
-                    backgroundColor: '#ffffff',
-                    removeContainer: true,
-                    width: element.scrollWidth,
-                    height: element.scrollHeight + 50
-                }).then(canvas => {
-                    const imgData = canvas.toDataURL('image/jpeg', 0.7); // ✅ تقليل جودة الصور إلى 0.7
-                    const { jsPDF } = window.jspdf;
-                    const pdf = new jsPDF('p', 'mm', 'a4');
-
-                    const imgWidth = 195;
-                    const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-                    pdf.addImage(imgData, 'JPEG', 10, 10, imgWidth, imgHeight);
-                    pdf.save(filename);
-
-                    document.body.removeChild(loadingIndicator);
-                }).catch(error => {
-                    console.error('⚠️ خطأ في إنشاء PDF:', error);
-                    alert('حدث خطأ أثناء إنشاء ملف PDF');
-                    document.body.removeChild(loadingIndicator);
+    // ⭐ التعديل هنا - إضافة تأخير لتحميل العناصر الديناميكية
+    setTimeout(() => {
+        html2canvas(element, {
+            scale: 2.5,                    // ⬆️ كان 1.2 - الآن 2.5 (أعلى جودة)
+            dpi: 300,                      // ⬆️ إضافة دقة عالية
+            useCORS: true,
+            allowTaint: true,
+            logging: false,
+            backgroundColor: '#ffffff',
+            removeContainer: true,
+            width: element.scrollWidth,
+            height: element.scrollHeight + 50,
+            onclone: function(clonedDoc) {
+                // ⬆️ تحسين النص في النسخة المستنسخة
+                const allElements = clonedDoc.querySelectorAll('*');
+                allElements.forEach(el => {
+                    el.style.fontSmoothing = 'antialiased';
+                    el.style.webkitFontSmoothing = 'antialiased';
                 });
-            });
-        }
+            }
+        }).then(canvas => {
+            // ⭐ التعديل هنا - تغيير الجودة والصيغة
+            const imgData = canvas.toDataURL('image/png', 1.0); // ⬆️ كان jpeg 0.7 - الآن png 1.0
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF('p', 'mm', 'a4');
 
+            const imgWidth = 195;
+            const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+            pdf.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight); // ⬆️ تغيير إلى PNG
+            pdf.save(filename);
+
+            document.body.removeChild(loadingIndicator);
+        }).catch(error => {
+            console.error('⚠️ خطأ في إنشاء PDF:', error);
+            alert('حدث خطأ أثناء إنشاء ملف PDF');
+            document.body.removeChild(loadingIndicator);
+        });
+    }, 1000); // ⬆️ إضافة تأخير 1 ثانية لضمان تحميل كل العناصر
+}
         // 🔹 دالة مساعدة لإنشاء مؤشر تحميل
         function createLoadingIndicator(message) {
             const div = document.createElement('div');
@@ -1948,13 +1996,13 @@
             document.getElementById('sheetSelector').innerHTML = '<option value="">-- اختر الورقة --</option>';
             document.getElementById('controlText').value = 'الكنترول';
             document.getElementById('managerName').value = '';
-            
+
             // إعادة تعيين بيانات الإدارة
             managementData = {
                 controlText: "الكنترول",
                 managerName: ""
             };
-            
+
             // إخفاء إعدادات الإدارة
             document.getElementById('adminSettings').style.display = 'none';
         }
