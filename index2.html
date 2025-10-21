@@ -1515,12 +1515,19 @@
         }
 
         // دالة لتحميل الصور من النت
-        function loadExternalImages() {
-            const images = document.querySelectorAll('img[src^="http"]');
-            images.forEach(img => {
-                img.crossOrigin = 'Anonymous';
-            });
-        }
+       function loadExternalImages() {
+    const images = document.querySelectorAll('img[src^="http"]');
+    images.forEach(img => {
+        img.crossOrigin = 'Anonymous';
+        // ⬆️ إضافة تحميل مسبق للصور
+        img.onload = function() {
+            console.log('✅ تم تحميل الصورة:', img.src);
+        };
+        img.onerror = function() {
+            console.log('❌ فشل تحميل الصورة:', img.src);
+        };
+    });
+}
 
         function convertNumberToArabicWords(number) {
             const units = ['', 'واحد', 'اثنان', 'ثلاثة', 'أربعة', 'خمسة', 'ستة', 'سبعة', 'ثمانية', 'تسعة'];
@@ -1584,7 +1591,7 @@
                             <div class="library-logo">
     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Emblem_of_Yemen_%282%29.svg/330px-Emblem_of_Yemen_%282%29.svg.png" alt="شعار المكتبة" style=" height: 150%;  object-fit: cover;">
 </div>
-                                <p>نتيجة نهاية الفصل الدراسي الأول 1447هـ 2025م - 2026م </p>
+                                <p>نتيجة نهاية الفصل الدراسي الأول 1447هـ 2015م - 2026م </p>
                             </div>
                         </div>
                     </div>
@@ -1807,119 +1814,139 @@
         }
 
         function exportAllStudentsToPDF() {
-            const reportsContainer = document.getElementById('reports');
-            if (!reportsContainer || reportsContainer.children.length === 0) {
-                alert('لا توجد تقارير لتصديرها');
-                return;
-            }
-            // ✅ تصحيح: ترتيب الطلاب أبجدياً حسب الاسم قبل التصدير
-                const reportElements = Array.from(reportsContainer.children);
-                const sortedReports = reportElements.sort((a, b) => {
-                    const nameA = (a.querySelector('.student-info-value')?.textContent || '').trim();
-                    const nameB = (b.querySelector('.student-info-value')?.textContent || '').trim();
-                    return nameA.localeCompare(nameB, 'ar');
-                });
-            const totalStudents = reportsContainer.children.length;
-            const loadingIndicator = createLoadingIndicator(`جاري تحضير ملف PDF... <br><span id="progress">0/${totalStudents}</span>`);
-            document.body.appendChild(loadingIndicator);
+    const reportsContainer = document.getElementById('reports');
+    if (!reportsContainer || reportsContainer.children.length === 0) {
+        alert('لا توجد تقارير لتصديرها');
+        return;
+    }
 
-            if (!window.jspdf) {
-                alert('مكتبة jsPDF غير محملة');
-                document.body.removeChild(loadingIndicator);
-                return;
-            }
+    // ✅ تعديل خاص: ترتيب الطلاب أبجدياً حسب الاسم قبل التصدير
+    const sortedReports = Array.from(reportsContainer.children).sort((a, b) => {
+        const nameA = (a.querySelector('.student-info-value')?.textContent || '').trim();
+        const nameB = (b.querySelector('.student-info-value')?.textContent || '').trim();
+        return nameA.localeCompare(nameB, 'ar');
+    });
 
-            const { jsPDF } = window.jspdf;
-            const pdf = new jsPDF('p', 'mm', 'a4');
-            let currentPage = 0;
+    const totalStudents = sortedReports.length;
+    const loadingIndicator = createLoadingIndicator(`جاري تحضير ملف PDF... <br><span id="progress">0/${totalStudents}</span>`);
+    document.body.appendChild(loadingIndicator);
 
-            function processNextReport(index) {
-                if (index >= totalStudents) {
-                    pdf.save('تقارير_جميع_الطلاب.pdf');
-                    document.body.removeChild(loadingIndicator);
-                    return;
-                }
+    if (!window.jspdf) {
+        alert('مكتبة jsPDF غير محملة');
+        document.body.removeChild(loadingIndicator);
+        return;
+    }
 
-                // تحديث مؤشر التقدم
-                document.getElementById('progress').textContent = `${index + 1}/${totalStudents}`;
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF('p', 'mm', 'a4');
+    let currentPage = 0;
 
-        const reportElement = sortedReports[index];
-                
-                html2canvas(reportElement, {
-                    scale: 1.2, // ✅ تقليل scale من 1.5 إلى 1.2
-                    useCORS: true,
-                    allowTaint: true,
-                    logging: false,
-                    backgroundColor: '#ffffff',
-                    removeContainer: true,
-                    width: reportElement.scrollWidth,
-                    height: reportElement.scrollHeight
-                }).then(canvas => {
-                    try {
-                        const imgData = canvas.toDataURL('image/jpeg', 0.7); // ✅ تقليل جودة الصور إلى 0.7
-                        const imgWidth = 190;
-                        const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-                        if (currentPage > 0) pdf.addPage();
-                        pdf.addImage(imgData, 'JPEG', 10, 10, imgWidth, imgHeight);
-
-                        currentPage++;
-                        setTimeout(() => processNextReport(index + 1), 300); // ✅ تقليل وقت الانتظار بين الصفحات إلى 300 مللي ثانية
-                    } catch (error) {
-                        console.error('⚠️ خطأ في معالجة الصورة:', error);
-                        document.body.removeChild(loadingIndicator);
-                        alert('حدث خطأ أثناء إنشاء ملف PDF');
-                    }
-                }).catch(error => {
-                    console.error('⚠️ خطأ في html2canvas:', error);
-                    document.body.removeChild(loadingIndicator);
-                    alert('حدث خطأ أثناء إنشاء ملف PDF');
-                });
-            }
-
-            processNextReport(0);
+    function processNextReport(index) {
+        if (index >= totalStudents) {
+            pdf.save('تقارير_جميع_الطلاب.pdf');
+            document.body.removeChild(loadingIndicator);
+            return;
         }
+
+        document.getElementById('progress').textContent = `${index + 1}/${totalStudents}`;
+        const reportElement = sortedReports[index];
+
+        // ⭐ التعديل هنا - تحسين إعدادات html2canvas
+        html2canvas(reportElement, {
+            scale: 2.5,                    // ⬆️ كان 1.2 - الآن 2.5
+            dpi: 300,                      // ⬆️ إضافة دقة عالية
+            useCORS: true,
+            allowTaint: true,
+            logging: false,
+            backgroundColor: '#ffffff',
+            removeContainer: true,
+            width: reportElement.scrollWidth,
+            height: reportElement.scrollHeight,
+            onclone: function(clonedDoc) {
+                // ⬆️ تحسين النص في النسخة المستنسخة
+                const allElements = clonedDoc.querySelectorAll('*');
+                allElements.forEach(el => {
+                    el.style.fontSmoothing = 'antialiased';
+                    el.style.webkitFontSmoothing = 'antialiased';
+                });
+            }
+        }).then(canvas => {
+            try {
+                // ⭐ التعديل هنا - تغيير الجودة والصيغة
+                const imgData = canvas.toDataURL('image/png', 1.0); // ⬆️ كان jpeg 0.7 - الآن png 1.0
+                const imgWidth = 195;
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+                if (currentPage > 0) pdf.addPage();
+                pdf.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight); // ⬆️ تغيير إلى PNG
+
+                currentPage++;
+                setTimeout(() => processNextReport(index + 1), 800); // ⬆️ زيادة التأخير إلى 800 مللي
+            } catch (error) {
+                console.error('⚠️ خطأ في معالجة الصورة:', error);
+                document.body.removeChild(loadingIndicator);
+                alert('حدث خطأ أثناء إنشاء ملف PDF');
+            }
+        }).catch(error => {
+            console.error('⚠️ خطأ في html2canvas:', error);
+            document.body.removeChild(loadingIndicator);
+            alert('حدث خطأ أثناء إنشاء ملف PDF');
+        });
+    }
+
+    processNextReport(0);
+}
 
         function exportSingleElementToPDF(element, filename) {
-            const loadingIndicator = createLoadingIndicator('جاري تحضير ملف PDF...');
-            document.body.appendChild(loadingIndicator);
+    const loadingIndicator = createLoadingIndicator('جاري تحضير ملف PDF...');
+    document.body.appendChild(loadingIndicator);
 
-            if (!window.jspdf) {
-                alert('مكتبة jsPDF غير محملة');
-                document.body.removeChild(loadingIndicator);
-                return;
-            }
+    if (!window.jspdf) {
+        alert('مكتبة jsPDF غير محملة');
+        document.body.removeChild(loadingIndicator);
+        return;
+    }
 
-            // إضافة تأخير لتحميل العناصر الديناميكية
-            setTimeout(() => {
-                html2canvas(element, {
-                    scale: 1.2,
-                    useCORS: true,
-                    allowTaint: true,
-                    logging: false,
-                    backgroundColor: '#ffffff',
-                    removeContainer: true,
-                    width: element.scrollWidth,
-                    height: element.scrollHeight + 50
-                }).then(canvas => {
-                    const imgData = canvas.toDataURL('image/jpeg', 0.7); // ✅ تقليل جودة الصور إلى 0.7
-                    const { jsPDF } = window.jspdf;
-                    const pdf = new jsPDF('p', 'mm', 'a4');
-
-                    const imgWidth = 195;
-                    const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-                    pdf.addImage(imgData, 'JPEG', 10, 10, imgWidth, imgHeight);
-                    pdf.save(filename);
-
-                    document.body.removeChild(loadingIndicator);
-                }).catch(error => {
-                    console.error('⚠️ خطأ في إنشاء PDF:', error);
-                    alert('حدث خطأ أثناء إنشاء ملف PDF');
-                    document.body.removeChild(loadingIndicator);
+    // ⭐ التعديل هنا - إضافة تأخير لتحميل العناصر الديناميكية
+    setTimeout(() => {
+        html2canvas(element, {
+            scale: 2.5,                    // ⬆️ كان 1.2 - الآن 2.5 (أعلى جودة)
+            dpi: 300,                      // ⬆️ إضافة دقة عالية
+            useCORS: true,
+            allowTaint: true,
+            logging: false,
+            backgroundColor: '#ffffff',
+            removeContainer: true,
+            width: element.scrollWidth,
+            height: element.scrollHeight + 50,
+            onclone: function(clonedDoc) {
+                // ⬆️ تحسين النص في النسخة المستنسخة
+                const allElements = clonedDoc.querySelectorAll('*');
+                allElements.forEach(el => {
+                    el.style.fontSmoothing = 'antialiased';
+                    el.style.webkitFontSmoothing = 'antialiased';
                 });
-            });
-        }
+            }
+        }).then(canvas => {
+            // ⭐ التعديل هنا - تغيير الجودة والصيغة
+            const imgData = canvas.toDataURL('image/png', 1.0); // ⬆️ كان jpeg 0.7 - الآن png 1.0
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF('p', 'mm', 'a4');
+
+            const imgWidth = 195;
+            const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+            pdf.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight); // ⬆️ تغيير إلى PNG
+            pdf.save(filename);
+
+            document.body.removeChild(loadingIndicator);
+        }).catch(error => {
+            console.error('⚠️ خطأ في إنشاء PDF:', error);
+            alert('حدث خطأ أثناء إنشاء ملف PDF');
+            document.body.removeChild(loadingIndicator);
+        });
+    }, 1000); // ⬆️ إضافة تأخير 1 ثانية لضمان تحميل كل العناصر
+}
 
         // 🔹 دالة مساعدة لإنشاء مؤشر تحميل
         function createLoadingIndicator(message) {
@@ -1958,5 +1985,4 @@
         }
     </script>
 </body>
-
 </html>
